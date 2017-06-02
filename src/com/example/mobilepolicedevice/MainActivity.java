@@ -62,7 +62,6 @@ public class MainActivity extends BaseActivity implements OnBottomDragListener{
 		ImgView_FingerPrintMatch = (ImageView)findViewById(R.id.ImgView_FingerPrintMatch);
 		ImgView_CarVerification = (ImageView)findViewById(R.id.ImgView_CarVerification);
 		ImgView_DataVerification = (ImageView)findViewById(R.id.ImgView_DataVerification);
-		
 		ImgView_IdCardVerification.setOnClickListener(new OnClickListener() {
 			
 			@Override

@@ -34,6 +34,8 @@ import android.text.SpannableString;
 import android.text.style.ImageSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -58,8 +60,9 @@ public class PersonInfoActivity extends BaseActivity implements
 	EditText editOffice;// 获取发证机关
 	EditText expDate;// 有效期限
 	TextView imageId;// 获取头像
-	
+
 	private LinearLayout Llyt_Escaped;// 在逃人员显示区域
+	private LinearLayout Llyt_NoEscaped;// 非在逃人员显示区域
 	private EditText editPersonTypeShow;// 人员分类
 	private EditText editLADWShow;// 立案单位
 	private EditText editNRBJZDRYKSJShow;// 纳入部级重点人员库时间
@@ -103,6 +106,8 @@ public class PersonInfoActivity extends BaseActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.personinformation_collect, this);
+		getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 		mact = this;
 		pkName = this.getPackageName();
@@ -122,13 +127,14 @@ public class PersonInfoActivity extends BaseActivity implements
 		btnPlaceSelec = (Button) findViewById(R.id.btnPlaceSelec);
 		btnInfo = (Button) findViewById(R.id.btnInfo);
 		btnHandSearch = (Button) findViewById(R.id.btn_handSearch);
-		Llyt_Escaped = (LinearLayout)findViewById(R.id.Llyt_Escaped);
-		editPersonTypeShow = (EditText)findViewById(R.id.editPersonTypeShow);
-		editLADWShow = (EditText)findViewById(R.id.editLADWShow);
-		editNRBJZDRYKSJShow = (EditText)findViewById(R.id.editNRBJZDRYKSJShow);
-		editHJDXZShow = (EditText)findViewById(R.id.editHJDXZShow);
-		editXZDXZShow = (EditText)findViewById(R.id.editXZDXZShow);
-		editZJLASJShow = (EditText)findViewById(R.id.editZJLASJShow);
+		Llyt_Escaped = (LinearLayout) findViewById(R.id.Llyt_Escaped);
+		Llyt_NoEscaped = (LinearLayout) findViewById(R.id.Llyt_NoEscaped);
+		editPersonTypeShow = (EditText) findViewById(R.id.editPersonTypeShow);
+		editLADWShow = (EditText) findViewById(R.id.editLADWShow);
+		editNRBJZDRYKSJShow = (EditText) findViewById(R.id.editNRBJZDRYKSJShow);
+		editHJDXZShow = (EditText) findViewById(R.id.editHJDXZShow);
+		editXZDXZShow = (EditText) findViewById(R.id.editXZDXZShow);
+		editZJLASJShow = (EditText) findViewById(R.id.editZJLASJShow);
 
 		btnInfo.setOnClickListener(new OnClickListener() {
 
@@ -215,6 +221,8 @@ public class PersonInfoActivity extends BaseActivity implements
 
 			@Override
 			public void onClick(View v) {
+				// 关闭虚拟键盘
+				hintKbTwo();
 				if (!oneMoreFunctionImpl.NetWorkStatus(getApplicationContext())) {
 					Toast.makeText(getApplicationContext(), "网络未连接",
 							Toast.LENGTH_SHORT).show();
@@ -227,6 +235,15 @@ public class PersonInfoActivity extends BaseActivity implements
 							Toast.LENGTH_SHORT).show();
 					return;
 				}
+				
+				// 点击查询身份证号时，把不必要的信息清空
+				editNation.setText("");
+				editBirth.setText("");
+				editAddr.setText("");
+				editOffice.setText("");
+				expDate.setText("");
+				imageId.setText("");
+				
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -345,7 +362,7 @@ public class PersonInfoActivity extends BaseActivity implements
 				nornum = norList.size();
 				Toast.makeText(getApplicationContext(),
 						"核查之后有" + nornum + "条数据", Toast.LENGTH_SHORT).show();
-				
+
 				// 自动去比对在逃人员数据库
 				new Thread(new Runnable() {
 					@Override
@@ -362,31 +379,41 @@ public class PersonInfoActivity extends BaseActivity implements
 							"连接超时，请检查服务器是否正常运行", Toast.LENGTH_LONG).show();
 				} else {
 					if (result.equals("false") || result == "false") {
+						editName.setText("");
+						editSex.setText("");
 						// 隐藏在逃人员显示界面
 						Llyt_Escaped.setVisibility(View.GONE);
-//						Toast.makeText(getApplicationContext(), "不是在逃人员",
-//								Toast.LENGTH_LONG).show();
+						// 显示非在逃人员界面
+						Llyt_NoEscaped.setVisibility(View.VISIBLE);
+						// Toast.makeText(getApplicationContext(), "不是在逃人员",
+						// Toast.LENGTH_LONG).show();
 					} else {
 						// 如果所查身份为在逃人员，将信息存入本地数据库
-						ArrayList<Escaped> escapedList = jsonUtil.toEscapedList(result);
-//						Toast.makeText(getApplicationContext(), escapedList.size(), Toast.LENGTH_SHORT).show();
-						if(escapedList.size()>0){
+						ArrayList<Escaped> escapedList = jsonUtil
+								.toEscapedList(result);
+						// Toast.makeText(getApplicationContext(),
+						// escapedList.size(), Toast.LENGTH_SHORT).show();
+						if (escapedList.size() > 0) {
 							escaped = escapedList.get(0);
 							mDBUtil = new DatabaseUtil(PersonInfoActivity.this);
 							mDBUtil.Insert_Escaped(escaped);
 						}
 						// 显示在逃人员信息
 						Llyt_Escaped.setVisibility(View.VISIBLE);
+						// 隐藏非在逃人员信息
+						Llyt_NoEscaped.setVisibility(View.GONE);
 						editName.setText(escaped.getXm());
 						editSex.setText(escaped.getXb());
-						
+						editBirth.setText(getBirthDay(escaped.getSfzh()));
 						editPersonTypeShow.setText(escaped.getZdryxl());
 						editLADWShow.setText(escaped.getLadw());
-						formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-						editNRBJZDRYKSJShow.setText(formatter.format(escaped.getNrbjzdryksj()));
+						formatter = new SimpleDateFormat("yyyy-MM-dd");
+						editNRBJZDRYKSJShow.setText(formatter.format(escaped
+								.getNrbjzdryksj()));
 						editHJDXZShow.setText(escaped.getHjdxz());
 						editXZDXZShow.setText(escaped.getXzdxz());
-						editZJLASJShow.setText(formatter.format(escaped.getZjlasj()));
+						editZJLASJShow.setText(formatter.format(escaped
+								.getZjlasj()));
 					}
 				}
 				break;
@@ -396,6 +423,28 @@ public class PersonInfoActivity extends BaseActivity implements
 
 		}
 	};
+
+	// 此方法只是关闭软键盘
+	private void hintKbTwo() {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (imm.isActive() && getCurrentFocus() != null) {
+			if (getCurrentFocus().getWindowToken() != null) {
+				imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+						InputMethodManager.HIDE_NOT_ALWAYS);
+			}
+		}
+	}
+
+	/**
+	 * 从身份证号码中提取生日
+	 */
+	private String getBirthDay(String str) {
+		int i = 6;
+		String year = str.substring(i, i + 4);// 年
+		String month = str.substring(i + 4, i + 6);// 月
+		String day = str.substring(i + 6, i + 8);// 日
+		return year + "年" + month + "月" + day + "日";
+	}
 
 	/**
 	 * 根据给定的宽和高进行拉伸
