@@ -1,0 +1,15 @@
+eclipse.preferences.version=1
+encoding//gen/com/example/mobilepolicedevice/BuildConfig.java=UTF-8
+encoding//gen/com/example/mobilepolicedevice/R.java=UTF-8
+encoding//src/com/IDWORLD/HostUsb.java=UTF-8
+encoding//src/com/IDWORLD/LAPI.java=UTF-8
+encoding//src/com/example/bean/FingerPrintTemplate.java=UTF-8
+encoding//src/com/example/bean/Person.java=UTF-8
+encoding//src/com/example/db/DatabaseUtil.java=UTF-8
+encoding//src/com/example/db/MyHelper.java=UTF-8
+encoding//src/com/example/mobilepolicedevice/FingerPrintActivity.java=UTF-8
+encoding//src/com/example/mobilepolicedevice/FingerPrintMatch.java=UTF-8
+encoding//src/com/example/mobilepolicedevice/LoginActivity.java=UTF-8
+encoding//src/com/example/mobilepolicedevice/MainActivity.java=UTF-8
+encoding//src/com/example/mobilepolicedevice/PersonInfoActivity.java=UTF-8
+encoding/<project>=UTF-8

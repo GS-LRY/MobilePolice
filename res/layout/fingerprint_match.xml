@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/FingerPrintImageViewer_Match"
+            android:layout_width="170dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="false" />
+    </LinearLayout>
+
+    <View style="@style/bg_line_horizontal" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2" 
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+        <TextView
+            android:id="@+id/txt_Finger_Match"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请按下左手或右手大拇指" 
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/txt_Finger_Match_Result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="匹配失败" 
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/txt_Finger_Match_SUM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" 
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"/>
+        
+        <SeekBar android:id="@+id/skBarfingermatch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:max="100"
+            android:progress="60"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请滑动进度条选择通过需要的匹配个数" 
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/txt_skBarfingermatch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前通过需要匹配成功的个数：60" 
+            android:layout_marginTop="20dp"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+    <View style="@style/bg_line_horizontal" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" 
+        android:orientation="vertical"
+        android:gravity="center">
+        <Button 
+            android:id="@+id/btn_match"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="跳过"/>
+        <Button android:id="@+id/btn_open_match"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+        <Button android:id="@+id/btn_getimage_match"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+</LinearLayout>

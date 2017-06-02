@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/btnUploadNormal"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="提交" 
+        android:visibility="gone"/>
+
+    <com.example.view.CustomListView
+        android:id="@+id/InfoRecordListView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:cacheColorHint="#00000000"
+        android:fadingEdgeLength="0dp"
+        android:divider="@drawable/inforecord_listview_divider_line"
+        android:dividerHeight="2px" />
+
+</LinearLayout>

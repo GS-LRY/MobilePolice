@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/FingerPrintImageViewer"
+            android:layout_width="170dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="false"
+            android:background="#ffffff" />
+    </LinearLayout>
+
+    <View style="@style/bg_line_horizontal" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/txt_WhichFinger"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请按下右手大拇指"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <View style="@style/bg_line_horizontal" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/ImgBtn_Thumb_Right"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/thumb" />
+
+            <ImageButton
+                android:id="@+id/ImgBtn_ForeFinger_Right"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/forefinger" />
+
+            <ImageButton
+                android:id="@+id/ImgBtn_MiddleFinger_Right"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/middlefinger" />
+
+            <ImageButton
+                android:id="@+id/ImgBtn_RingFinger_Right"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/ringfinger" />
+
+            <ImageButton
+                android:id="@+id/ImgBtn_LittleFinger_Right"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/littlefinger" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="-10dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/righthand" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="-15dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/lefthand" />
+
+            <ImageButton
+                android:id="@+id/ImgBtn_LittleFinger_Left"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/littlefinger" />
+
+            <ImageButton
+                android:id="@+id/ImgBtn_RingFinger_Left"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/ringfinger" />
+
+            <ImageButton
+                android:id="@+id/ImgBtn_MiddleFinger_Left"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/middlefinger" />
+
+            <ImageButton
+                android:id="@+id/ImgBtn__ForeFinger_Left"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/forefinger" />
+
+            <ImageButton
+                android:id="@+id/ImgBtn_Thumb_Left"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/thumb" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <Button 
+            android:id="@+id/btnDeleteFingerPrint"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="删除该指纹"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/btnOpenDevice"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="打开设备"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnCloseDevice"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="关闭设备"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnGetImage"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="获取指纹"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</LinearLayout>

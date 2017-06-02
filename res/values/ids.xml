@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="home" />
+    <item type="id" name="action_bar_activity_content" />
+    <item type="id" name="action_menu_divider" />
+    <item type="id" name="action_menu_presenter" />
+    <item type="id" name="progress_circular" />
+    <item type="id" name="progress_horizontal" />
+    <item type="id" name="action_bar_root">false</item>
+    <item type="id" name="action_bar_container">false</item>
+    <item type="id" name="action_bar">false</item>
+    <item type="id" name="action_context_bar">false</item>
+    <item type="id" name="split_action_bar">false</item>
+    <item type="id" name="action_bar_overlay_layout">false</item>
+    <item type="id" name="top_action_bar">false</item>
+    <item type="id" name="up">false</item>
+    <item type="id" name="action_bar_title">false</item>
+    <item type="id" name="action_bar_subtitle">false</item>
+    <item type="id" name="action_mode_close_button">false</item>
+    <item type="id" name="activity_chooser_view_content">false</item>
+    <item type="id" name="expand_activities_button">false</item>
+    <item type="id" name="image">false</item>
+    <item type="id" name="default_activity_button">false</item>
+    <item type="id" name="list_item">false</item>
+    <item type="id" name="icon">false</item>
+    <item type="id" name="title">false</item>
+    <item type="id" name="expanded_menu">false</item>
+    <item type="id" name="checkbox">false</item>
+    <item type="id" name="shortcut">false</item>
+    <item type="id" name="radio">false</item>
+    <item type="id" name="edit_query">false</item>
+    <item type="id" name="search_bar">false</item>
+    <item type="id" name="search_badge">false</item>
+    <item type="id" name="search_button">false</item>
+    <item type="id" name="search_edit_frame">false</item>
+    <item type="id" name="search_mag_icon">false</item>
+    <item type="id" name="search_plate">false</item>
+    <item type="id" name="search_src_text">false</item>
+    <item type="id" name="search_close_btn">false</item>
+    <item type="id" name="submit_area">false</item>
+    <item type="id" name="search_go_btn">false</item>
+    <item type="id" name="search_voice_btn">false</item>
+    <item type="id" name="viewpager">false</item>
+    <item type="id" name="text_userstatus">false</item>
+    <item type="id" name="textView2">false</item>
+    <item type="id" name="textName">false</item>
+    <item type="id" name="editName">false</item>
+    <item type="id" name="textSex">false</item>
+    <item type="id" name="editSex">false</item>
+    <item type="id" name="textNation">false</item>
+    <item type="id" name="editNation">false</item>
+    <item type="id" name="textBirth">false</item>
+    <item type="id" name="editBirth">false</item>
+    <item type="id" name="imageId">false</item>
+    <item type="id" name="textView7">false</item>
+    <item type="id" name="textView5">false</item>
+    <item type="id" name="textID">false</item>
+    <item type="id" name="editId">false</item>
+    <item type="id" name="btn_handSearch">false</item>
+    <item type="id" name="textAddr">false</item>
+    <item type="id" name="editAddr">false</item>
+    <item type="id" name="textOffice">false</item>
+    <item type="id" name="editOffice">false</item>
+    <item type="id" name="expDate">false</item>
+    <item type="id" name="textView10">false</item>
+    <item type="id" name="TextView01">false</item>
+    <item type="id" name="editPersonTypeShow">false</item>
+    <item type="id" name="textView8">false</item>
+    <item type="id" name="editActionShow">false</item>
+    <item type="id" name="textView4">false</item>
+    <item type="id" name="textView9">false</item>
+    <item type="id" name="editRemarkShow">false</item>
+    <item type="id" name="textView11">false</item>
+    <item type="id" name="textView1">false</item>
+    <item type="id" name="textView13">false</item>
+    <item type="id" name="btnAreaSelec">false</item>
+    <item type="id" name="textView12">false</item>
+    <item type="id" name="btnPlaceSelec">false</item>
+    <item type="id" name="textView3">false</item>
+    <item type="id" name="iv_fp">false</item>
+    <item type="id" name="iv_fp_pic">false</item>
+    <item type="id" name="rg">false</item>
+    <item type="id" name="lefthand">false</item>
+    <item type="id" name="righthand">false</item>
+    <item type="id" name="spinner2">false</item>
+    <item type="id" name="btn_fp_ok">false</item>
+    <item type="id" name="l1">false</item>
+    <item type="id" name="l2">false</item>
+    <item type="id" name="l3">false</item>
+    <item type="id" name="l4">false</item>
+    <item type="id" name="l5">false</item>
+    <item type="id" name="r1">false</item>
+    <item type="id" name="r2">false</item>
+    <item type="id" name="r3">false</item>
+    <item type="id" name="r4">false</item>
+    <item type="id" name="r5">false</item>
+</resources>
