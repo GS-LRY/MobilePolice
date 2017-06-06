@@ -10,17 +10,30 @@
         android:id="@+id/btnUploadNormal"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="提交" 
-        android:visibility="gone"/>
+        android:text="提交"
+        android:visibility="gone" />
+
+    <RelativeLayout style="@style/topbar_bg" >
+
+        <ImageButton style="@style/topbar_return_img" />
+
+        <TextView
+            style="@style/topbar_title"
+            android:layout_centerHorizontal="true"
+            android:text="核查记录" />
+    </RelativeLayout>
 
     <com.example.view.CustomListView
         android:id="@+id/InfoRecordListView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:cacheColorHint="#00000000"
-        android:fadingEdgeLength="0dp"
         android:divider="@drawable/inforecord_listview_divider_line"
-        android:dividerHeight="2px" />
-	<include android:id="@+id/emptyview"
-	    layout="@layout/layout_empty"/>
+        android:dividerHeight="2px"
+        android:fadingEdgeLength="0dp" />
+
+    <include
+        android:id="@+id/emptyview"
+        layout="@layout/layout_empty" />
+
 </LinearLayout>

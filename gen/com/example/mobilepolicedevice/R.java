@@ -247,6 +247,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int topbar_btn_min_width=0x7f080014;
         /**  margin>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
  topbar 
+ topbar 
          */
         public static final int topbar_height=0x7f080012;
         public static final int topbar_title_padding=0x7f080013;
