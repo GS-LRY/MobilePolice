@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@color/blue"
+    android:fitsSystemWindows="true"
     android:orientation="vertical" >
 
     <Button
@@ -20,5 +21,6 @@
         android:fadingEdgeLength="0dp"
         android:divider="@drawable/inforecord_listview_divider_line"
         android:dividerHeight="2px" />
-
+	<include android:id="@+id/emptyview"
+	    layout="@layout/layout_empty"/>
 </LinearLayout>

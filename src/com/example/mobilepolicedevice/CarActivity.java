@@ -2,7 +2,6 @@ package com.example.mobilepolicedevice;
 
 import android.app.Activity;
 import android.os.Bundle;
-import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 
 public class CarActivity extends BaseActivity implements OnBottomDragListener{

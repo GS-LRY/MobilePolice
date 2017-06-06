@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.manager.SystemBarTintManager;
 
 import com.example.bean.NormalList_Result;
 import com.example.db.DatabaseUtil;
@@ -20,6 +20,7 @@ import com.example.model.Normal;
 import com.example.service.impl.OneMoreFunctionImpl;
 import com.hdos.usbdevice.publicSecurityIDCardLib;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -105,10 +106,12 @@ public class PersonInfoActivity extends BaseActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.personinformation_collect, this);
+		
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
+		
+		setContentView(R.layout.personinformation_collect, this);
+		
 		mact = this;
 		pkName = this.getPackageName();
 		context = this;
@@ -253,7 +256,7 @@ public class PersonInfoActivity extends BaseActivity implements
 			}
 		});
 	}
-
+	
 	/**
 	 * 访问服务器
 	 */

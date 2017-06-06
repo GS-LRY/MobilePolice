@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context="com.example.mobilepolicedevice.PersonInfoActivity" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/background"
+        android:background="@color/blue"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -342,278 +343,287 @@
                 android:layout_height="wrap_content" >
 
                 <LinearLayout
-                    style="@style/wrap_layout"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp" >
 
                     <LinearLayout
-                        android:id="@+id/Llyt_NoEscaped"
-                        android:layout_width="fill_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1.17"
-                        android:orientation="vertical"
-                        android:visibility="gone" >
-
-                        <ImageView
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/norecord" />
-
-                        <TextView
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:text="无记录"
-                            android:textColor="@color/gray"
-                            android:textSize="15sp" 
-                            android:gravity="center"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/Llyt_Escaped"
-                        android:layout_width="fill_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1.17"
-                        android:orientation="vertical"
-                        android:visibility="gone" >
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content" >
-
-                            <TextView
-                                android:id="@id/TextView01"
-                                android:layout_width="wrap_content"
-                                android:layout_height="fill_parent"
-                                android:gravity="center"
-                                android:text=" 人员分类 "
-                                android:textColor="#ff000000"
-                                android:textSize="14.0sp" />
-
-                            <View style="@style/bg_line_vertical" />
-
-                            <EditText
-                                android:id="@+id/editPersonTypeShow"
-                                android:layout_width="fill_parent"
-                                android:layout_height="40.0dip"
-                                android:background="@drawable/bg_border"
-                                android:ems="10"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:gravity="left|center_vertical"
-                                android:textColor="@color/brown"
-                                android:textSize="14.0sp" />
-                        </LinearLayout>
-
-                        <View style="@style/bg_line_horizontal" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal" >
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1" >
-
-                                <TextView
-                                    android:id="@id/TextView01"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="fill_parent"
-                                    android:gravity="center"
-                                    android:text=" 立案时间 "
-                                    android:textColor="#ff000000"
-                                    android:textSize="14.0sp" />
-
-                                <View style="@style/bg_line_vertical" />
-
-                                <EditText
-                                    android:id="@+id/editZJLASJShow"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="40.0dip"
-                                    android:background="@drawable/bg_border"
-                                    android:ems="10"
-                                    android:focusable="false"
-                                    android:focusableInTouchMode="false"
-                                    android:gravity="left|center_vertical"
-                                    android:textColor="@color/brown"
-                                    android:textSize="14.0sp" />
-                            </LinearLayout>
-
-                            <View style="@style/bg_line_vertical" />
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1" >
-
-                                <TextView
-                                    android:id="@id/TextView01"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="fill_parent"
-                                    android:gravity="center"
-                                    android:text=" 入库时间 "
-                                    android:textColor="#ff000000"
-                                    android:textSize="14.0sp" />
-
-                                <View style="@style/bg_line_vertical" />
-
-                                <EditText
-                                    android:id="@+id/editNRBJZDRYKSJShow"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="40.0dip"
-                                    android:background="@drawable/bg_border"
-                                    android:ems="10"
-                                    android:focusable="false"
-                                    android:focusableInTouchMode="false"
-                                    android:gravity="left|center_vertical"
-                                    android:textColor="@color/brown"
-                                    android:textSize="14.0sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <View style="@style/bg_line_horizontal" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content" >
-
-                            <TextView
-                                android:id="@id/TextView01"
-                                android:layout_width="wrap_content"
-                                android:layout_height="fill_parent"
-                                android:gravity="center"
-                                android:text=" 立案单位 "
-                                android:textColor="#ff000000"
-                                android:textSize="14.0sp" />
-
-                            <View style="@style/bg_line_vertical" />
-
-                            <EditText
-                                android:id="@+id/editLADWShow"
-                                android:layout_width="fill_parent"
-                                android:layout_height="40.0dip"
-                                android:background="@drawable/bg_border"
-                                android:ems="10"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:gravity="left|center_vertical"
-                                android:textColor="@color/brown"
-                                android:textSize="14.0sp" />
-                        </LinearLayout>
-
-                        <View style="@style/bg_line_horizontal" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content" >
-
-                            <TextView
-                                android:id="@id/TextView01"
-                                android:layout_width="wrap_content"
-                                android:layout_height="fill_parent"
-                                android:gravity="center"
-                                android:text=" 现居住地 "
-                                android:textColor="#ff000000"
-                                android:textSize="14.0sp" />
-
-                            <View style="@style/bg_line_vertical" />
-
-                            <EditText
-                                android:id="@+id/editXZDXZShow"
-                                android:layout_width="fill_parent"
-                                android:layout_height="40.0dip"
-                                android:background="@drawable/bg_border"
-                                android:ems="10"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:gravity="left|center_vertical"
-                                android:textColor="@color/brown"
-                                android:textSize="14.0sp" />
-                        </LinearLayout>
-
-                        <View style="@style/bg_line_horizontal" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content" >
-
-                            <TextView
-                                android:id="@id/TextView01"
-                                android:layout_width="wrap_content"
-                                android:layout_height="fill_parent"
-                                android:gravity="center"
-                                android:text=" 户籍地址 "
-                                android:textColor="#ff000000"
-                                android:textSize="14.0sp" />
-
-                            <View style="@style/bg_line_vertical" />
-
-                            <EditText
-                                android:id="@+id/editHJDXZShow"
-                                android:layout_width="fill_parent"
-                                android:layout_height="40.0dip"
-                                android:background="@drawable/bg_border"
-                                android:ems="10"
-                                android:focusable="false"
-                                android:focusableInTouchMode="false"
-                                android:gravity="left|center_vertical"
-                                android:textColor="@color/brown"
-                                android:textSize="14.0sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <View style="@style/bg_line_horizontal" />
-
-                    <LinearLayout
+                        style="@style/wrap_layout"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical" >
 
                         <LinearLayout
+                            android:id="@+id/Llyt_NoEscaped"
                             android:layout_width="fill_parent"
-                            android:layout_height="52.0dip"
-                            android:orientation="horizontal" >
+                            android:layout_height="0dp"
+                            android:layout_weight="1.17"
+                            android:orientation="vertical"
+                            android:visibility="gone" >
 
-                            <TextView
-                                android:id="@id/textView13"
-                                android:layout_width="wrap_content"
-                                android:layout_height="fill_parent"
-                                android:gravity="center"
-                                android:text="  搜查 \n  区域 "
-                                android:textColor="#ff000000"
-                                android:textSize="12.0sp" />
-
-                            <Button
-                                android:id="@id/btnAreaSelec"
-                                android:layout_width="80.0dip"
-                                android:layout_height="fill_parent"
-                                android:layout_marginLeft="3.0dip"
-                                android:layout_marginRight="3.0dip"
-                                android:gravity="center"
-                                android:text="搜查区域"
-                                android:textSize="10.0sp" />
-
-                            <TextView
-                                android:id="@id/textView12"
-                                android:layout_width="wrap_content"
-                                android:layout_height="fill_parent"
-                                android:gravity="center"
-                                android:text="搜查\n地点"
-                                android:textColor="#ff000000"
-                                android:textSize="12.0sp" />
-
-                            <Button
-                                android:id="@id/btnPlaceSelec"
+                            <ImageView
                                 android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:layout_marginLeft="3.0dip"
-                                android:layout_marginRight="3.0dip"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/norecord" />
+
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="搜查地点选择"
-                                android:textSize="10.0sp" />
+                                android:text="无记录"
+                                android:textColor="@color/gray"
+                                android:textSize="15sp" />
+                            <View style="@style/bg_line_horizontal" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/Llyt_Escaped"
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.17"
+                            android:orientation="vertical"
+                            android:visibility="gone" >
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content" >
+
+                                <TextView
+                                    android:id="@id/TextView01"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:gravity="center"
+                                    android:text="  人员分类 "
+                                    android:textColor="#ff000000"
+                                    android:textSize="14.0sp" />
+
+                                <View style="@style/bg_line_vertical" />
+
+                                <EditText
+                                    android:id="@+id/editPersonTypeShow"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="40.0dip"
+                                    android:background="@drawable/bg_border"
+                                    android:ems="10"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:gravity="left|center_vertical"
+                                    android:textColor="@color/brown"
+                                    android:textSize="14.0sp" />
+                            </LinearLayout>
+
+                            <View style="@style/bg_line_horizontal" />
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal" >
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1" >
+
+                                    <TextView
+                                        android:id="@id/TextView01"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:gravity="center"
+                                        android:text="  立案时间 "
+                                        android:textColor="#ff000000"
+                                        android:textSize="14.0sp" />
+
+                                    <View style="@style/bg_line_vertical" />
+
+                                    <EditText
+                                        android:id="@+id/editZJLASJShow"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="40.0dip"
+                                        android:background="@drawable/bg_border"
+                                        android:ems="10"
+                                        android:focusable="false"
+                                        android:focusableInTouchMode="false"
+                                        android:gravity="left|center_vertical"
+                                        android:textColor="@color/brown"
+                                        android:textSize="14.0sp" />
+                                </LinearLayout>
+
+                                <View style="@style/bg_line_vertical" />
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1" >
+
+                                    <TextView
+                                        android:id="@id/TextView01"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="fill_parent"
+                                        android:gravity="center"
+                                        android:text="  入库时间 "
+                                        android:textColor="#ff000000"
+                                        android:textSize="14.0sp" />
+
+                                    <View style="@style/bg_line_vertical" />
+
+                                    <EditText
+                                        android:id="@+id/editNRBJZDRYKSJShow"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="40.0dip"
+                                        android:background="@drawable/bg_border"
+                                        android:ems="10"
+                                        android:focusable="false"
+                                        android:focusableInTouchMode="false"
+                                        android:gravity="left|center_vertical"
+                                        android:textColor="@color/brown"
+                                        android:textSize="14.0sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <View style="@style/bg_line_horizontal" />
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content" >
+
+                                <TextView
+                                    android:id="@id/TextView01"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:gravity="center"
+                                    android:text="  立案单位 "
+                                    android:textColor="#ff000000"
+                                    android:textSize="14.0sp" />
+
+                                <View style="@style/bg_line_vertical" />
+
+                                <EditText
+                                    android:id="@+id/editLADWShow"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="40.0dip"
+                                    android:background="@drawable/bg_border"
+                                    android:ems="10"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:gravity="left|center_vertical"
+                                    android:textColor="@color/brown"
+                                    android:textSize="14.0sp" />
+                            </LinearLayout>
+
+                            <View style="@style/bg_line_horizontal" />
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content" >
+
+                                <TextView
+                                    android:id="@id/TextView01"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:gravity="center"
+                                    android:text="  现居住地 "
+                                    android:textColor="#ff000000"
+                                    android:textSize="14.0sp" />
+
+                                <View style="@style/bg_line_vertical" />
+
+                                <EditText
+                                    android:id="@+id/editXZDXZShow"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="40.0dip"
+                                    android:background="@drawable/bg_border"
+                                    android:ems="10"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:gravity="left|center_vertical"
+                                    android:textColor="@color/brown"
+                                    android:textSize="14.0sp" />
+                            </LinearLayout>
+
+                            <View style="@style/bg_line_horizontal" />
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content" >
+
+                                <TextView
+                                    android:id="@id/TextView01"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:gravity="center"
+                                    android:text="  户籍地址 "
+                                    android:textColor="#ff000000"
+                                    android:textSize="14.0sp" />
+
+                                <View style="@style/bg_line_vertical" />
+
+                                <EditText
+                                    android:id="@+id/editHJDXZShow"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="40.0dip"
+                                    android:background="@drawable/bg_border"
+                                    android:ems="10"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:gravity="left|center_vertical"
+                                    android:textColor="@color/brown"
+                                    android:textSize="14.0sp" />
+                            </LinearLayout>
+                            <View style="@style/bg_line_horizontal" />
+                        </LinearLayout>
+
+                        
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" >
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="52.0dip"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    android:id="@id/textView13"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:gravity="center"
+                                    android:text="  搜查 \n  区域 "
+                                    android:textColor="#ff000000"
+                                    android:textSize="12.0sp" />
+
+                                <Button
+                                    android:id="@id/btnAreaSelec"
+                                    android:layout_width="80.0dip"
+                                    android:layout_height="fill_parent"
+                                    android:layout_marginLeft="3.0dip"
+                                    android:layout_marginRight="3.0dip"
+                                    android:gravity="center"
+                                    android:text="搜查区域"
+                                    android:textSize="10.0sp" />
+
+                                <TextView
+                                    android:id="@id/textView12"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="fill_parent"
+                                    android:gravity="center"
+                                    android:text="搜查\n地点"
+                                    android:textColor="#ff000000"
+                                    android:textSize="12.0sp" />
+
+                                <Button
+                                    android:id="@id/btnPlaceSelec"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_marginLeft="3.0dip"
+                                    android:layout_marginRight="3.0dip"
+                                    android:gravity="center"
+                                    android:text="搜查地点选择"
+                                    android:textSize="10.0sp" />
+                            </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>

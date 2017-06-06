@@ -2,7 +2,6 @@ package com.example.mobilepolicedevice;
 
 import java.util.ArrayList;
 
-import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 
 import com.IDWORLD.LAPI;

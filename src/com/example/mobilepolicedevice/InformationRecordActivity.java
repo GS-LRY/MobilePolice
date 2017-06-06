@@ -3,7 +3,6 @@ package com.example.mobilepolicedevice;
 import java.util.ArrayList;
 import java.util.List;
 
-import zuo.biao.library.base.BaseActivity;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 
 import com.example.bean.NormalList_Result;
@@ -41,7 +40,8 @@ import android.widget.Toast;
  * @author 陆如一
  * @time 2017-5-25
  */
-public class InformationRecordActivity extends BaseActivity implements OnBottomDragListener {
+public class InformationRecordActivity extends BaseActivity implements
+		OnBottomDragListener {
 
 	private Button btnUploadNormal;
 	private DatabaseUtil mDBUtil;
@@ -70,13 +70,18 @@ public class InformationRecordActivity extends BaseActivity implements OnBottomD
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.information_record,this);
+		setContentView(R.layout.information_record, this);
 		mDBUtil = new DatabaseUtil(InformationRecordActivity.this);
 		btnUploadNormal = (Button) findViewById(R.id.btnUploadNormal);
 
 		BuildAppData();
 
 		InitView();
+
+		// 无核查记录显示无内容界面
+		// View listEmptyView = View.inflate(this, R.layout.layout_empty,
+		// (ViewGroup) mListView.getParent());
+		// mListView.setEmptyView(listEmptyView);
 
 		btnUploadNormal.setOnClickListener(new OnClickListener() {
 			@Override
@@ -90,7 +95,7 @@ public class InformationRecordActivity extends BaseActivity implements OnBottomD
 					@Override
 					public void run() {
 						new Thread(networkTask).start();
-						LoadData(REFRESF_DATA_FINISH);/*上传数据后刷新列表*/
+						LoadData(REFRESF_DATA_FINISH);/* 上传数据后刷新列表 */
 					}
 				}).start();
 			}
@@ -177,6 +182,10 @@ public class InformationRecordActivity extends BaseActivity implements OnBottomD
 		/* 初始化绑定数据 */
 		mAdapter = new CustomListAdapter(this, itemLists);
 		mListView = (CustomListView) findViewById(R.id.InfoRecordListView);
+		// 无核查记录显示无内容界面
+		View listEmptyView = findViewById(R.id.emptyview);
+		mListView.setEmptyView(listEmptyView);
+		
 		mListView.setAdapter(mAdapter);
 
 		/* 列表下拉刷新监听 */
@@ -252,7 +261,7 @@ public class InformationRecordActivity extends BaseActivity implements OnBottomD
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		/* 发送消息给主线程，通知其更改UI */
 		if (type == REFRESF_DATA_FINISH) {
 			Message msg = handler.obtainMessage(REFRESF_DATA_FINISH, ifnvList);
@@ -375,11 +384,11 @@ public class InformationRecordActivity extends BaseActivity implements OnBottomD
 	private ItemForNormalView setItemForNormalView(Normal normal) {
 		ItemForNormalView ifnv = new ItemForNormalView();
 		if (normal.getInfosubmit() == 0) {
-			ifnv.setUploadIcon(BitmapFactory.decodeResource(
-					getResources(), R.drawable.noupload));
+			ifnv.setUploadIcon(BitmapFactory.decodeResource(getResources(),
+					R.drawable.noupload));
 		} else {
-			ifnv.setUploadIcon(BitmapFactory.decodeResource(
-					getResources(), R.drawable.upload));
+			ifnv.setUploadIcon(BitmapFactory.decodeResource(getResources(),
+					R.drawable.upload));
 		}
 
 		ifnv.setPersonName("姓名：" + normal.getPersonname());
@@ -387,7 +396,6 @@ public class InformationRecordActivity extends BaseActivity implements OnBottomD
 		ifnv.setUserName("核查警员：" + normal.getUserid());
 		ifnv.setAddressName("核查地点：" + normal.getAddressname());
 		ifnv.setCommitTime("核查时间：" + normal.getCommittime());
-
 		/* 判断指纹是否采集 */
 		if (normal.getPersonfp() == 0) {
 			ifnv.setFingerprintIcon(BitmapFactory.decodeResource(
@@ -408,19 +416,19 @@ public class InformationRecordActivity extends BaseActivity implements OnBottomD
 	@Override
 	public void initView() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void initData() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void initEvent() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

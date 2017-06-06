@@ -5,8 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import zuo.biao.library.base.BaseActivity;
+
 import zuo.biao.library.interfaces.OnBottomDragListener;
+import zuo.biao.library.manager.SystemBarTintManager;
 
 import com.example.db.DatabaseUtil;
 import com.example.db.MyHelper;
@@ -112,7 +113,11 @@ public class MainActivity extends BaseActivity implements OnBottomDragListener{
 			}
 		});
 	}
-	
+	@Override
+	public void setContentView(int layoutResID, OnBottomDragListener listener) {
+		super.setContentView(layoutResID, listener);
+		
+	}
 	Runnable netWorkTask = new Runnable() {
 		public void run() {
 			String jsondata = httpOperation.getStringFromServer("getEscapedHundred.do","");
