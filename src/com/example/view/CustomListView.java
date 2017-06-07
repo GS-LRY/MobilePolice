@@ -270,7 +270,7 @@ public class CustomListView extends ListView implements OnScrollListener{
 		if(pAnimDuration > 0){
 			_Duration = pAnimDuration;
 		}else{
-			_Duration = 250;
+			_Duration = 200;
 		}
 		
 		Interpolator _Interpolator = new LinearInterpolator();
