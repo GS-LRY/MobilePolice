@@ -317,13 +317,14 @@ public class PersonInfoActivity extends BaseActivity implements
 				normal.setAddresscode("123");
 				normal.setAddressname("上海");
 				normal.setAddressgps("sss");
-				normal.setUserid(22);
+				normal.setUserid(30);
 				normal.setInfosubmit(0);
 				if (bFp) {
 					normal.setPersonfp(1);
 				} else {
 					normal.setPersonfp(0);
 				}
+				normal.setComparfp(0);
 				SimpleDateFormat formatter = new SimpleDateFormat(
 						"yyyy-MM-dd HH:mm:ss");
 				Date nowTime = new Date();

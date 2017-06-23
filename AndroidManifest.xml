@@ -30,14 +30,12 @@
         <activity
             android:name=".PersonInfoActivity"
             android:label="@string/app_name"
-            
             android:parentActivityName="com.example.mobilepolicedevice.MainActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".LoginActivity"
-            
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,7 +50,6 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -73,6 +70,20 @@
             android:name="com.example.mobilepolicedevice.CarActivity"
             android:screenOrientation="portrait" >
         </activity>
+
+        <service
+            android:name="com.example.service.TestService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name="com.example.service.UploadNormalRecordService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <receiver android:name="com.example.broadcastreceiver.AlarmReceiver" >
+        </receiver>
     </application>
 
 </manifest>

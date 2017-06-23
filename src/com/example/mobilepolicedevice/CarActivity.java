@@ -1,6 +1,9 @@
 package com.example.mobilepolicedevice;
 
+import com.example.service.TestService;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import zuo.biao.library.interfaces.OnBottomDragListener;
 
@@ -11,6 +14,9 @@ public class CarActivity extends BaseActivity implements OnBottomDragListener{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.carlayout, this);
+		
+//		Intent startIntent = new Intent(this,MyService.class);
+//		startService(startIntent);
 	}
 	
 	@Override

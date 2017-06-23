@@ -28,6 +28,16 @@ public class Normal {
 	private Integer infosubmit;
 	
 	private Integer personfp;
+	
+	private Integer comparfp;
+
+	public Integer getComparfp() {
+		return comparfp;
+	}
+
+	public void setComparfp(Integer comparfp) {
+		this.comparfp = comparfp;
+	}
 
 	public Integer getPersonfp() {
 		return personfp;

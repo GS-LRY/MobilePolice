@@ -37,7 +37,7 @@ public class MyHelper extends SQLiteOpenHelper {
 				+ TABLE_NAME_Normal
 				+ " ( id INTEGER PRIMARY KEY AUTOINCREMENT, "
 				+ " persionId TEXT, personName TEXT , addressCode TEXT, "
-				+ " addressName TEXT , addressGPS TEXT , commitTime TEXT , infoSubmit INTEGER ,personFp INTEGER ,"
+				+ " addressName TEXT , addressGPS TEXT , commitTime TEXT , infoSubmit INTEGER ,personFp INTEGER ,comparFp INTEGER,"
 				+ " userId INTEGER );");
 		
 		db.execSQL("CREATE TABLE IF NOT EXISTS "+ TABLE_NAME_Escaped + "(id INTEGER PRIMARY KEY AUTOINCREMENT," +

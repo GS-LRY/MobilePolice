@@ -54,12 +54,12 @@ public class DatabaseUtil {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		String sql = "insert into "
 				+ MyHelper.TABLE_NAME_Normal
-				+ "(persionId,personName,addressCode,addressName,addressGPS,commitTime,userId,infoSubmit,personFp) values ("
+				+ "(persionId,personName,addressCode,addressName,addressGPS,commitTime,userId,infoSubmit,personFp,comparFp) values ("
 				+ "'" + normal.getPersonid() + "','" + normal.getPersonname()
 				+ "' , '" + normal.getAddresscode() + "','"
 				+ normal.getAddressname() + "','" + normal.getAddressgps()
 				+ "','" + normal.getCommittime() + "'," + normal.getUserid()
-				+ ", " + normal.getInfosubmit() + ", " + normal.getPersonfp()
+				+ ", " + normal.getInfosubmit() + ", " + normal.getPersonfp()+", "+normal.getComparfp()
 				+ ")";
 		try {
 			db.execSQL(sql);
@@ -264,6 +264,7 @@ public class DatabaseUtil {
 			normal.setInfosubmit(cursor.getInt(cursor
 					.getColumnIndex("infoSubmit")));
 			normal.setPersonfp(cursor.getInt(cursor.getColumnIndex("personFp")));
+			normal.setComparfp(cursor.getInt(cursor.getColumnIndex("comparFp")));
 			list.add(normal);
 		}
 		return list;
@@ -300,6 +301,7 @@ public class DatabaseUtil {
 			normal.setInfosubmit(cursor.getInt(cursor
 					.getColumnIndex("infoSubmit")));
 			normal.setPersonfp(cursor.getInt(cursor.getColumnIndex("personFp")));
+			normal.setComparfp(cursor.getInt(cursor.getColumnIndex("comparFp")));
 			list.add(normal);
 		}
 		return list;
@@ -336,6 +338,7 @@ public class DatabaseUtil {
 			normal.setInfosubmit(cursor.getInt(cursor
 					.getColumnIndex("infoSubmit")));
 			normal.setPersonfp(cursor.getInt(cursor.getColumnIndex("personFp")));
+			normal.setComparfp(cursor.getInt(cursor.getColumnIndex("comparFp")));
 			list.add(normal);
 		}
 		return list;

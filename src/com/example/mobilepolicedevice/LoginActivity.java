@@ -3,6 +3,8 @@ package com.example.mobilepolicedevice;
 import com.example.bean.Person;
 import com.example.db.DatabaseUtil;
 import com.example.db.MyHelper;
+import com.example.service.TestService;
+import com.example.service.UploadNormalRecordService;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,7 +29,8 @@ public class LoginActivity extends Activity{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_all);
-		
+		Intent startIntent = new Intent(this,UploadNormalRecordService.class);
+		startService(startIntent);
 		initview();
 		
 	}
