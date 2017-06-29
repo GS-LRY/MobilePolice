@@ -1,17 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="SwipeBackLayout">
-        <attr name="edge_size" format="dimension"/>
+        <attr name="edge_size" format="dimension" />
         <attr name="edge_flag">
             <enum name="left" value="0" />
             <enum name="right" value="1" />
             <enum name="bottom" value="2" />
             <enum name="all" value="3" />
         </attr>
-        <attr name="shadow_left" format="reference"/>
-        <attr name="shadow_right" format="reference"/>
-        <attr name="shadow_bottom" format="reference"/>
+        <attr name="shadow_left" format="reference" />
+        <attr name="shadow_right" format="reference" />
+        <attr name="shadow_bottom" format="reference" />
     </declare-styleable>
 
-    <attr name="SwipeBackLayoutStyle" format="reference"/>
+    <attr name="SwipeBackLayoutStyle" format="reference" />
+
+    <string-array name="area">
+        <item>陆家嘴街道</item>
+        <item>周家渡街道</item>
+        <item>塘桥街道</item>
+        <item>唐镇</item>
+        <item>三林镇</item>
+        <item>张江高科技园区</item>
+    </string-array>
+    <string-array name="lujiazui">
+        <item >栖霞路</item>
+        <item >南泉北路</item>
+        <item >张杨路</item>
+        <item >福山路</item>
+        <item >松林路</item>
+        <item >商城路</item>
+    </string-array>
+    <string-array name="zhoujiadu">
+        <item >云台路</item>
+        <item >洪山路</item>
+        <item >昌里路</item>
+        <item >云莲路</item>
+        <item >东明路</item>
+        <item >杨高南路</item>
+    </string-array>
+    <string-array name="tangqiao">
+        <item >浦东南路</item>
+        <item >浦明路</item>
+        <item >南泉路</item>
+        <item >峨山路</item>
+        <item >东方路</item>
+        <item >浦建路</item>
+    </string-array>
+    <string-array name="tangzhen">
+        <item >唐丰路</item>
+        <item >唐安路</item>
+        <item >唐龙路</item>
+        <item >顾唐路</item>
+        <item >齐爱路</item>
+        <item >唐兴路</item>
+    </string-array>
+    <string-array name="sanlinzhen">
+        <item >灵岩南路</item>
+        <item >凌兆路</item>
+        <item >长清路</item>
+        <item >三新路</item>
+        <item >洪山路</item>
+        <item >高清路</item>
+    </string-array>
+    <string-array name="zhangjianggaokejiyuanqu">
+        <item >高斯路</item>
+        <item >毕升路</item>
+        <item >蔡伦路</item>
+        <item >金科路</item>
+        <item >祖冲之路</item>
+        <item >张衡路</item>
+    </string-array>
+
 </resources>

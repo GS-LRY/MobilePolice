@@ -37,9 +37,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,8 +52,12 @@ public class PersonInfoActivity extends BaseActivity implements
 
 	PersonInfoActivity mact;
 
-	Button btnAreaSelec;// 获取搜索区域按钮
-	Button btnPlaceSelec;// 获取搜索地点按钮
+//	Button btnAreaSelec;// 获取搜索区域按钮
+//	Button btnPlaceSelec;// 获取搜索地点按钮
+	Spinner spnAreaSelec;// 获取搜索区域下拉列表
+	private String strAreaSelec; 
+	Spinner spnPlaceSelec;// 获取搜索地点下拉列表
+	private String strPlaceSelec;
 	Button btnInfo;// 获取读取信息按钮
 	Button btnHandSearch;// 比对身份证号-在逃人员
 	EditText editName;// 获取姓名
@@ -61,6 +69,7 @@ public class PersonInfoActivity extends BaseActivity implements
 	EditText editOffice;// 获取发证机关
 	EditText expDate;// 有效期限
 	TextView imageId;// 获取头像
+	TextView txtuserstatus;// 用户状态
 
 	private LinearLayout Llyt_Escaped;// 在逃人员显示区域
 	private LinearLayout Llyt_NoEscaped;// 非在逃人员显示区域
@@ -79,6 +88,10 @@ public class PersonInfoActivity extends BaseActivity implements
 	private JsonUtil jsonUtil = new JsonUtil();
 
 	private DatabaseUtil mDBUtil;
+	
+	private ArrayAdapter<String> AreaAdapter,PlaceAdapter;
+	private String[] area = null;
+	private String[] place = null;
 
 	private byte[] name = new byte[32];
 	private String mName;
@@ -126,8 +139,10 @@ public class PersonInfoActivity extends BaseActivity implements
 		editOffice = (EditText) findViewById(R.id.editOffice);
 		expDate = (EditText) findViewById(R.id.expDate);
 		imageId = (TextView) findViewById(R.id.imageId);
-		btnAreaSelec = (Button) findViewById(R.id.btnAreaSelec);
-		btnPlaceSelec = (Button) findViewById(R.id.btnPlaceSelec);
+//		btnAreaSelec = (Button) findViewById(R.id.btnAreaSelec);
+//		btnPlaceSelec = (Button) findViewById(R.id.btnPlaceSelec);
+		spnAreaSelec = (Spinner)findViewById(R.id.spnAreaSelec);
+		spnPlaceSelec = (Spinner)findViewById(R.id.spnPlaceSelec);
 		btnInfo = (Button) findViewById(R.id.btnInfo);
 		btnHandSearch = (Button) findViewById(R.id.btn_handSearch);
 		Llyt_Escaped = (LinearLayout) findViewById(R.id.Llyt_Escaped);
@@ -138,6 +153,7 @@ public class PersonInfoActivity extends BaseActivity implements
 		editHJDXZShow = (EditText) findViewById(R.id.editHJDXZShow);
 		editXZDXZShow = (EditText) findViewById(R.id.editXZDXZShow);
 		editZJLASJShow = (EditText) findViewById(R.id.editZJLASJShow);
+		txtuserstatus = (TextView)findViewById(R.id.text_userstatus);
 
 		btnInfo.setOnClickListener(new OnClickListener() {
 
@@ -203,20 +219,67 @@ public class PersonInfoActivity extends BaseActivity implements
 		});
 		/* 每隔1秒发送读取身份证信息命令 */
 		handler.postDelayed(runnable, 1000);
+		
+		area = this.getResources().getStringArray(R.array.area);
+		place = this.getResources().getStringArray(R.array.lujiazui);
+		PlaceAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item,place);
+		PlaceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spnPlaceSelec.setAdapter(PlaceAdapter);
+		
+		AreaAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item,area);
+		AreaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spnAreaSelec.setAdapter(AreaAdapter);
 
-		btnAreaSelec.setOnClickListener(new OnClickListener() {
+		// 区域选择下拉列表选择事件
+		spnAreaSelec.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
-			public void onClick(View arg0) {
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				Spinner spinner = (Spinner)parent;
+				String areaname = (String)spinner.getItemAtPosition(position);
+				strAreaSelec = areaname;
+				PlaceAdapter = null;
+				if(areaname=="陆家嘴街道"||areaname.equals("陆家嘴街道")){
+					place = getResources().getStringArray(R.array.lujiazui);
+				}else if(areaname=="周家渡街道"||areaname.equals("周家渡街道")){
+					place = getResources().getStringArray(R.array.zhoujiadu);
+				}else if(areaname=="塘桥街道"||areaname.equals("塘桥街道")){
+					place = getResources().getStringArray(R.array.tangqiao);
+				}else if(areaname=="唐镇"||areaname.equals("唐镇")){
+					place = getResources().getStringArray(R.array.tangzhen);
+				}else if(areaname=="三林镇"||areaname.equals("三林镇")){
+					place = getResources().getStringArray(R.array.sanlinzhen);
+				}else if(areaname=="张江高科技园区"||areaname.equals("张江高科技园区")){
+					place = getResources().getStringArray(R.array.zhangjianggaokejiyuanqu);
+				}
+				PlaceAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item,place);
+				PlaceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				spnPlaceSelec.setAdapter(PlaceAdapter);
+				
+			}
 
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
-
-		btnPlaceSelec.setOnClickListener(new OnClickListener() {
+		
+		// 地点选择下拉列表选择事件
+		spnPlaceSelec.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
-			public void onClick(View arg0) {
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				Spinner spinner = (Spinner)parent;
+				strPlaceSelec = (String)spinner.getItemAtPosition(position);
+			}
 
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 
@@ -307,16 +370,16 @@ public class PersonInfoActivity extends BaseActivity implements
 				// 插入数据之前查询记录条数
 				norList = mDBUtil.queryAll_Normal();
 				nornum = norList.size();
-				Toast.makeText(getApplicationContext(),
-						"核查之前有" + nornum + "条数据", Toast.LENGTH_SHORT).show();
+//				Toast.makeText(getApplicationContext(),
+//						"核查之前有" + nornum + "条数据", Toast.LENGTH_SHORT).show();
 
 				// 将要存入本地数据库的信息进行准备
 				Normal normal = new Normal();
 				normal.setPersonid(mIDNo);
 				normal.setPersonname(mName);
-				normal.setAddresscode("123");
-				normal.setAddressname("上海");
-				normal.setAddressgps("sss");
+				normal.setAddresscode("819");
+				normal.setAddressname(strAreaSelec+","+strPlaceSelec);
+				normal.setAddressgps("31.1962772285,121.5947621898");
 				normal.setUserid(30);
 				normal.setInfosubmit(0);
 				if (bFp) {
@@ -354,7 +417,7 @@ public class PersonInfoActivity extends BaseActivity implements
 					}
 					// 将核录信息记录存入本地数据库
 					// 相隔超过5分钟允许插入同一个人的信息
-					if (differsMinutes > 5) {
+					if (differsMinutes > 1) {
 						mDBUtil.Insert_Normal(normal);
 					}
 				} else {
@@ -364,8 +427,8 @@ public class PersonInfoActivity extends BaseActivity implements
 				// 插入数据之后查询记录条数
 				norList = mDBUtil.queryAll_Normal();
 				nornum = norList.size();
-				Toast.makeText(getApplicationContext(),
-						"核查之后有" + nornum + "条数据", Toast.LENGTH_SHORT).show();
+//				Toast.makeText(getApplicationContext(),
+//						"核查之后有" + nornum + "条数据", Toast.LENGTH_SHORT).show();
 
 				// 自动去比对在逃人员数据库
 				new Thread(new Runnable() {
@@ -420,6 +483,10 @@ public class PersonInfoActivity extends BaseActivity implements
 								.getZjlasj()));
 					}
 				}
+				break;
+			case 2: 
+				String userstatus = msg.obj.toString();
+				txtuserstatus.setText(userstatus);
 				break;
 			default:
 				break;
@@ -490,6 +557,15 @@ public class PersonInfoActivity extends BaseActivity implements
 			// TODO Auto-generated method stub
 			try {
 				handler.postDelayed(this, 5000);
+				Message msg = new Message();
+				msg.what = 2;
+				String result = "用户状态：在线";
+				if (!oneMoreFunctionImpl.NetWorkStatus(getApplicationContext())) {
+					result = "用户状态：离线";
+				}
+				msg.obj = result;
+				mHandler.sendMessage(msg);
+				
 				btnInfo.performClick();
 			} catch (Exception e) {
 				e.printStackTrace();
