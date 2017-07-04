@@ -33,6 +33,7 @@ import android.os.Message;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -52,10 +53,10 @@ public class PersonInfoActivity extends BaseActivity implements
 
 	PersonInfoActivity mact;
 
-//	Button btnAreaSelec;// 获取搜索区域按钮
-//	Button btnPlaceSelec;// 获取搜索地点按钮
+	// Button btnAreaSelec;// 获取搜索区域按钮
+	// Button btnPlaceSelec;// 获取搜索地点按钮
 	Spinner spnAreaSelec;// 获取搜索区域下拉列表
-	private String strAreaSelec; 
+	private String strAreaSelec;
 	Spinner spnPlaceSelec;// 获取搜索地点下拉列表
 	private String strPlaceSelec;
 	Button btnInfo;// 获取读取信息按钮
@@ -88,8 +89,8 @@ public class PersonInfoActivity extends BaseActivity implements
 	private JsonUtil jsonUtil = new JsonUtil();
 
 	private DatabaseUtil mDBUtil;
-	
-	private ArrayAdapter<String> AreaAdapter,PlaceAdapter;
+
+	private ArrayAdapter<String> AreaAdapter, PlaceAdapter;
 	private String[] area = null;
 	private String[] place = null;
 
@@ -119,12 +120,12 @@ public class PersonInfoActivity extends BaseActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		
+
 		setContentView(R.layout.personinformation_collect, this);
-		
+
 		mact = this;
 		pkName = this.getPackageName();
 		context = this;
@@ -139,10 +140,10 @@ public class PersonInfoActivity extends BaseActivity implements
 		editOffice = (EditText) findViewById(R.id.editOffice);
 		expDate = (EditText) findViewById(R.id.expDate);
 		imageId = (TextView) findViewById(R.id.imageId);
-//		btnAreaSelec = (Button) findViewById(R.id.btnAreaSelec);
-//		btnPlaceSelec = (Button) findViewById(R.id.btnPlaceSelec);
-		spnAreaSelec = (Spinner)findViewById(R.id.spnAreaSelec);
-		spnPlaceSelec = (Spinner)findViewById(R.id.spnPlaceSelec);
+		// btnAreaSelec = (Button) findViewById(R.id.btnAreaSelec);
+		// btnPlaceSelec = (Button) findViewById(R.id.btnPlaceSelec);
+		spnAreaSelec = (Spinner) findViewById(R.id.spnAreaSelec);
+		spnPlaceSelec = (Spinner) findViewById(R.id.spnPlaceSelec);
 		btnInfo = (Button) findViewById(R.id.btnInfo);
 		btnHandSearch = (Button) findViewById(R.id.btn_handSearch);
 		Llyt_Escaped = (LinearLayout) findViewById(R.id.Llyt_Escaped);
@@ -153,7 +154,7 @@ public class PersonInfoActivity extends BaseActivity implements
 		editHJDXZShow = (EditText) findViewById(R.id.editHJDXZShow);
 		editXZDXZShow = (EditText) findViewById(R.id.editXZDXZShow);
 		editZJLASJShow = (EditText) findViewById(R.id.editZJLASJShow);
-		txtuserstatus = (TextView)findViewById(R.id.text_userstatus);
+		txtuserstatus = (TextView) findViewById(R.id.text_userstatus);
 
 		btnInfo.setOnClickListener(new OnClickListener() {
 
@@ -219,15 +220,19 @@ public class PersonInfoActivity extends BaseActivity implements
 		});
 		/* 每隔1秒发送读取身份证信息命令 */
 		handler.postDelayed(runnable, 1000);
-		
+
 		area = this.getResources().getStringArray(R.array.area);
 		place = this.getResources().getStringArray(R.array.lujiazui);
-		PlaceAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item,place);
-		PlaceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		PlaceAdapter = new ArrayAdapter<String>(context,
+				android.R.layout.simple_spinner_item, place);
+		PlaceAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spnPlaceSelec.setAdapter(PlaceAdapter);
-		
-		AreaAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item,area);
-		AreaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		AreaAdapter = new ArrayAdapter<String>(context,
+				android.R.layout.simple_spinner_item, area);
+		AreaAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spnAreaSelec.setAdapter(AreaAdapter);
 
 		// 区域选择下拉列表选择事件
@@ -236,50 +241,58 @@ public class PersonInfoActivity extends BaseActivity implements
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
-				Spinner spinner = (Spinner)parent;
-				String areaname = (String)spinner.getItemAtPosition(position);
+				Spinner spinner = (Spinner) parent;
+				String areaname = (String) spinner.getItemAtPosition(position);
 				strAreaSelec = areaname;
 				PlaceAdapter = null;
-				if(areaname=="陆家嘴街道"||areaname.equals("陆家嘴街道")){
+				if (areaname == "陆家嘴街道" || areaname.equals("陆家嘴街道")) {
 					place = getResources().getStringArray(R.array.lujiazui);
-				}else if(areaname=="周家渡街道"||areaname.equals("周家渡街道")){
+				} else if (areaname == "周家渡街道" || areaname.equals("周家渡街道")) {
 					place = getResources().getStringArray(R.array.zhoujiadu);
-				}else if(areaname=="塘桥街道"||areaname.equals("塘桥街道")){
+				} else if (areaname == "塘桥街道" || areaname.equals("塘桥街道")) {
 					place = getResources().getStringArray(R.array.tangqiao);
-				}else if(areaname=="唐镇"||areaname.equals("唐镇")){
+				} else if (areaname == "唐镇" || areaname.equals("唐镇")) {
 					place = getResources().getStringArray(R.array.tangzhen);
-				}else if(areaname=="三林镇"||areaname.equals("三林镇")){
+				} else if (areaname == "三林镇" || areaname.equals("三林镇")) {
 					place = getResources().getStringArray(R.array.sanlinzhen);
-				}else if(areaname=="张江高科技园区"||areaname.equals("张江高科技园区")){
-					place = getResources().getStringArray(R.array.zhangjianggaokejiyuanqu);
+				} else if (areaname == "张江高科技园区" || areaname.equals("张江高科技园区")) {
+					place = getResources().getStringArray(
+							R.array.zhangjianggaokejiyuanqu);
 				}
-				PlaceAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item,place);
-				PlaceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				PlaceAdapter = new ArrayAdapter<String>(context,
+						android.R.layout.simple_spinner_item, place);
+				PlaceAdapter
+						.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 				spnPlaceSelec.setAdapter(PlaceAdapter);
-				
+
+				TextView tv = (TextView) view;
+				tv.setTextSize(12.0f);
+				tv.setGravity(Gravity.LEFT);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
+
 		// 地点选择下拉列表选择事件
 		spnPlaceSelec.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
-				Spinner spinner = (Spinner)parent;
-				strPlaceSelec = (String)spinner.getItemAtPosition(position);
+				Spinner spinner = (Spinner) parent;
+
+				strPlaceSelec = (String) spinner.getItemAtPosition(position);
+
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 
@@ -289,11 +302,6 @@ public class PersonInfoActivity extends BaseActivity implements
 			public void onClick(View v) {
 				// 关闭虚拟键盘
 				hintKbTwo();
-				if (!oneMoreFunctionImpl.NetWorkStatus(getApplicationContext())) {
-					Toast.makeText(getApplicationContext(), "网络未连接",
-							Toast.LENGTH_SHORT).show();
-					return;
-				}
 				if (editId.getText().toString() == ""
 						|| editId.getText().toString().equals("")
 						|| editId.getText() == null) {
@@ -301,25 +309,52 @@ public class PersonInfoActivity extends BaseActivity implements
 							Toast.LENGTH_SHORT).show();
 					return;
 				}
-				
-				// 点击查询身份证号时，把不必要的信息清空
-				editNation.setText("");
-				editBirth.setText("");
-				editAddr.setText("");
-				editOffice.setText("");
-				expDate.setText("");
-				imageId.setText("");
-				
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						new Thread(networkTask).start();
-					}
-				}).start();
+				if (!oneMoreFunctionImpl.NetWorkStatus(getApplicationContext())) {
+					// Toast.makeText(getApplicationContext(), "网络未连接",
+					// Toast.LENGTH_SHORT).show();
+					// return;
+					// String sql =
+					// "select * from "+MyHelper.TABLE_NAME_Escaped;
+					// int num = mDBUtil.queryNumBySQL(sql);
+					// Toast.makeText(getApplicationContext(),
+					// "nihao",Toast.LENGTH_SHORT).show();
+					// return;
+					// Escaped escaped = null;
+					// String result = "false";
+					// try {
+					// escaped =
+					// mDBUtil.queryEscapedByPersonId(editId.getText().toString());
+					// } catch (ParseException e) {
+					// // TODO Auto-generated catch block
+					// e.printStackTrace();
+					// }
+					// if(escaped!=null){
+					// result = "true";
+					Message msg = new Message();
+					msg.what = 3;
+					// msg.obj = result;
+					mHandler.sendMessage(msg);
+					// }
+				} else {
+					// 点击查询身份证号时，把不必要的信息清空
+					editNation.setText("");
+					editBirth.setText("");
+					editAddr.setText("");
+					editOffice.setText("");
+					expDate.setText("");
+					imageId.setText("");
+
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							new Thread(networkTask).start();
+						}
+					}).start();
+				}
 			}
 		});
 	}
-	
+
 	/**
 	 * 访问服务器
 	 */
@@ -347,7 +382,7 @@ public class PersonInfoActivity extends BaseActivity implements
 				editName.setText(mName);
 				editSex.setText(mSex);
 				editNation.setText(mNation);
-				editBirth.setText(mBirth);
+				editBirth.setText(getBirthDayFromSFZH(mBirth));
 				editId.setText(mIDNo);
 				editAddr.setText(mAddress);
 				editOffice.setText(mDepartment);
@@ -370,15 +405,15 @@ public class PersonInfoActivity extends BaseActivity implements
 				// 插入数据之前查询记录条数
 				norList = mDBUtil.queryAll_Normal();
 				nornum = norList.size();
-//				Toast.makeText(getApplicationContext(),
-//						"核查之前有" + nornum + "条数据", Toast.LENGTH_SHORT).show();
+				// Toast.makeText(getApplicationContext(),
+				// "核查之前有" + nornum + "条数据", Toast.LENGTH_SHORT).show();
 
 				// 将要存入本地数据库的信息进行准备
 				Normal normal = new Normal();
 				normal.setPersonid(mIDNo);
 				normal.setPersonname(mName);
 				normal.setAddresscode("819");
-				normal.setAddressname(strAreaSelec+","+strPlaceSelec);
+				normal.setAddressname(strAreaSelec + "," + strPlaceSelec);
 				normal.setAddressgps("31.1962772285,121.5947621898");
 				normal.setUserid(30);
 				normal.setInfosubmit(0);
@@ -427,16 +462,21 @@ public class PersonInfoActivity extends BaseActivity implements
 				// 插入数据之后查询记录条数
 				norList = mDBUtil.queryAll_Normal();
 				nornum = norList.size();
-//				Toast.makeText(getApplicationContext(),
-//						"核查之后有" + nornum + "条数据", Toast.LENGTH_SHORT).show();
+				// Toast.makeText(getApplicationContext(),
+				// "核查之后有" + nornum + "条数据", Toast.LENGTH_SHORT).show();
 
-				// 自动去比对在逃人员数据库
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						new Thread(networkTask).start();
-					}
-				}).start();
+				// 联网状态下，自动去服务器比对在逃人员数据库
+				if (oneMoreFunctionImpl.NetWorkStatus(getApplicationContext())) {
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							new Thread(networkTask).start();
+						}
+					}).start();
+				} else {
+					// 离线状态下，虚拟点击比对身份证按钮，比对离线数据库
+					btnHandSearch.performClick();
+				}
 				break;
 			case 1:
 				String result = msg.obj.toString();
@@ -448,6 +488,7 @@ public class PersonInfoActivity extends BaseActivity implements
 					if (result.equals("false") || result == "false") {
 						editName.setText("");
 						editSex.setText("");
+
 						// 隐藏在逃人员显示界面
 						Llyt_Escaped.setVisibility(View.GONE);
 						// 显示非在逃人员界面
@@ -484,9 +525,51 @@ public class PersonInfoActivity extends BaseActivity implements
 					}
 				}
 				break;
-			case 2: 
+			case 2:
 				String userstatus = msg.obj.toString();
 				txtuserstatus.setText(userstatus);
+				break;
+			case 3:
+				// sql = "select * from "+MyHelper.TABLE_NAME_Escaped;
+				// num = mDBUtil.queryNumBySQL(sql);
+				// Toast.makeText(getApplicationContext(),
+				// ""+num,Toast.LENGTH_SHORT).show();
+				Escaped newescaped = null;
+				mDBUtil = new DatabaseUtil(PersonInfoActivity.this);
+				try {
+					newescaped = mDBUtil.queryEscapedByPersonId(editId
+							.getText().toString());
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				if (newescaped == null) {
+					// editName.setText("");
+					// editSex.setText("");
+					// editBirth.setText("");
+					// 隐藏在逃人员显示界面
+					Llyt_Escaped.setVisibility(View.GONE);
+					// 显示非在逃人员界面
+					Llyt_NoEscaped.setVisibility(View.VISIBLE);
+				} else {
+					// 显示在逃人员信息
+					Llyt_Escaped.setVisibility(View.VISIBLE);
+					// 隐藏非在逃人员信息
+					Llyt_NoEscaped.setVisibility(View.GONE);
+					editName.setText(newescaped.getXm());
+					editSex.setText(newescaped.getXb());
+					editBirth.setText(getBirthDay(newescaped.getSfzh()));
+					editPersonTypeShow.setText(newescaped.getZdryxl());
+					editLADWShow.setText(newescaped.getLadw());
+					formatter = new SimpleDateFormat("yyyy-MM-dd");
+					editNRBJZDRYKSJShow.setText(formatter.format(newescaped
+							.getNrbjzdryksj()));
+					editHJDXZShow.setText(newescaped.getHjdxz());
+					editXZDXZShow.setText(newescaped.getXzdxz());
+					editZJLASJShow.setText(formatter.format(newescaped
+							.getZjlasj()));
+				}
 				break;
 			default:
 				break;
@@ -507,7 +590,7 @@ public class PersonInfoActivity extends BaseActivity implements
 	}
 
 	/**
-	 * 从身份证号码中提取生日
+	 * 从在逃人员身份证号码中提取生日
 	 */
 	private String getBirthDay(String str) {
 		int i = 6;
@@ -516,7 +599,16 @@ public class PersonInfoActivity extends BaseActivity implements
 		String day = str.substring(i + 6, i + 8);// 日
 		return year + "年" + month + "月" + day + "日";
 	}
-
+	/**
+	 * 从读取身份证号码中提取生日
+	 */
+	private String getBirthDayFromSFZH(String str){
+		int i = 0;
+		String year = str.substring(i, i + 4);// 年
+		String month = str.substring(i + 4, i + 6);// 月
+		String day = str.substring(i + 6, i + 8);// 日
+		return year + "年" + month + "月" + day + "日";
+	}
 	/**
 	 * 根据给定的宽和高进行拉伸
 	 * 
@@ -534,8 +626,10 @@ public class PersonInfoActivity extends BaseActivity implements
 		}
 		int height = origin.getHeight();
 		int width = origin.getWidth();
-		float scaleWidth = (float) (((float) newWidth * 2.5) / width);
-		float scaleHeight = (float) (((float) newHeight * 2.5) / height);
+		// Mate 9 newWidth*3 newHeight*3
+		// 华为畅享7 plus newWidth*2 newHeight*2
+		float scaleWidth = (float) (((float) newWidth * 3) / width);
+		float scaleHeight = (float) (((float) newHeight * 3) / height);
 		Matrix matrix = new Matrix();
 		matrix.postScale(scaleWidth, scaleHeight);
 		Bitmap newBM = Bitmap.createBitmap(origin, 0, 0, width, height, matrix,
@@ -556,7 +650,7 @@ public class PersonInfoActivity extends BaseActivity implements
 		public void run() {
 			// TODO Auto-generated method stub
 			try {
-				handler.postDelayed(this, 5000);
+				handler.postDelayed(this, 1000);
 				Message msg = new Message();
 				msg.what = 2;
 				String result = "用户状态：在线";
@@ -565,7 +659,7 @@ public class PersonInfoActivity extends BaseActivity implements
 				}
 				msg.obj = result;
 				mHandler.sendMessage(msg);
-				
+
 				btnInfo.performClick();
 			} catch (Exception e) {
 				e.printStackTrace();

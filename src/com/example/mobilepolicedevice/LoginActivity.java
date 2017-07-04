@@ -22,15 +22,13 @@ public class LoginActivity extends Activity{
 	private EditText et_username;
 	private EditText et_password;
 	private Button btn_login;
-	
-	private DatabaseUtil mDBUtil;
+	//获取数据库
+	private DatabaseUtil mDBUtil = new DatabaseUtil(LoginActivity.this);
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_all);
-		Intent startIntent = new Intent(this,UploadNormalRecordService.class);
-		startService(startIntent);
 		initview();
 		
 	}
@@ -41,7 +39,7 @@ public class LoginActivity extends Activity{
 		et_password = (EditText)findViewById(R.id.login_edit_password);
 		btn_login = (Button)findViewById(R.id.login_but_landing);
 		//获取数据库
-		mDBUtil = new DatabaseUtil(LoginActivity.this);
+		//mDBUtil = new DatabaseUtil(LoginActivity.this);
 		
 		//判断警员表内是否已经有初始化数据
 		String sql = "SELECT * FROM "+ MyHelper.TABLE_NAME_PoliceInformation +";";
@@ -62,34 +60,35 @@ public class LoginActivity extends Activity{
 			@Override
 			public void onClick(View v) {
 				// 判断账号和密码是否为空
-				if(null == et_username.getText().toString().trim() || et_username.getText().toString().length() == 0){
-					Toast.makeText(getApplicationContext(), "请输入账号", Toast.LENGTH_SHORT).show();
-					return;
-				}else if(null == et_password.getText().toString().trim() || et_password.getText().toString().length() == 0){
-					Toast.makeText(getApplicationContext(), "请输入密码", Toast.LENGTH_SHORT).show();
-					return;
-				}
-				//根据输入账号查找警员信息
-				Person person = mDBUtil.queryByUsername_PoliceInformation(et_username.getText().toString());
-				//验证账户是否存在
-				if(person==null){
-					Toast.makeText(getApplicationContext(), "账户不存在", Toast.LENGTH_SHORT).show();
-					return;
-				}
-				//验证输入的密码是否准确
-				if(et_password.getText().toString() == person.getPassword() || et_password.getText().toString().equals(person.getPassword())){
-//					Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+//				if(null == et_username.getText().toString().trim() || et_username.getText().toString().length() == 0){
+//					Toast.makeText(getApplicationContext(), "请输入账号", Toast.LENGTH_SHORT).show();
 //					return;
-					Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-					Bundle bundle = new Bundle();
-					bundle.putString("username", et_username.getText().toString());
-					intent.putExtras(bundle);
-					startActivity(intent);
-				}else{
-					Toast.makeText(getApplicationContext(), "密码错误", Toast.LENGTH_SHORT).show();
-					return;
-				}
-				
+//				}else if(null == et_password.getText().toString().trim() || et_password.getText().toString().length() == 0){
+//					Toast.makeText(getApplicationContext(), "请输入密码", Toast.LENGTH_SHORT).show();
+//					return;
+//				}
+//				//根据输入账号查找警员信息
+//				Person person = mDBUtil.queryByUsername_PoliceInformation(et_username.getText().toString());
+//				//验证账户是否存在
+//				if(person==null){
+//					Toast.makeText(getApplicationContext(), "账户不存在", Toast.LENGTH_SHORT).show();
+//					return;
+//				}
+//				//验证输入的密码是否准确
+//				if(et_password.getText().toString() == person.getPassword() || et_password.getText().toString().equals(person.getPassword())){
+////					Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+////					return;
+//					Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+//					Bundle bundle = new Bundle();
+//					bundle.putString("username", et_username.getText().toString());
+//					intent.putExtras(bundle);
+//					startActivity(intent);
+//				}else{
+//					Toast.makeText(getApplicationContext(), "密码错误", Toast.LENGTH_SHORT).show();
+//					return;
+//				}
+				Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+				startActivity(intent);
 			}
 		});
 		

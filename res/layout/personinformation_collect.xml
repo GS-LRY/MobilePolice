@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/blue"
+        android:background="@drawable/mainbgc"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -177,8 +177,9 @@
 
                     <LinearLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
+                        android:layout_height="144dp"
                         android:layout_marginRight="2.0dip"
+                        android:layout_gravity="bottom"
                         android:orientation="horizontal" >
 
                         <TextView
@@ -357,27 +358,25 @@
                         <LinearLayout
                             android:id="@+id/Llyt_NoEscaped"
                             android:layout_width="fill_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1.17"
+                            android:layout_height="160dp"
                             android:orientation="vertical"
-                            android:visibility="gone" >
+                            android:visibility="visible" >
 
                             <ImageView
-                                android:layout_width="fill_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
+                                android:layout_marginTop="20dp"
                                 android:src="@drawable/norecord" />
 
                             <TextView
-                                android:layout_width="fill_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
+                                android:layout_gravity="center"
                                 android:text="无记录"
                                 android:textColor="@color/gray"
                                 android:textSize="15sp" />
-                            <View style="@style/bg_line_horizontal" />
                         </LinearLayout>
-
                         <LinearLayout
                             android:id="@+id/Llyt_Escaped"
                             android:layout_width="fill_parent"
@@ -597,12 +596,12 @@
 
                                 <Spinner
                                     android:id="@+id/spnAreaSelec"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="140dp"
                                     android:layout_height="fill_parent"
                                     android:layout_marginLeft="3.0dip"
                                     android:layout_marginRight="3.0dip"
                                     android:gravity="center"
-                                    android:textSize="10.0sp" />
+                                    android:textSize="8.0sp" />
 
                                 <TextView
                                     android:id="@id/textView12"
@@ -615,12 +614,12 @@
 
                                 <Spinner
                                     android:id="@+id/spnPlaceSelec"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="120dp"
                                     android:layout_height="fill_parent"
                                     android:layout_marginLeft="3.0dip"
                                     android:layout_marginRight="3.0dip"
                                     android:gravity="center"
-                                    android:textSize="10.0sp" />
+                                    android:textSize="8.0sp" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>

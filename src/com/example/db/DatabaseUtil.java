@@ -233,6 +233,60 @@ public class DatabaseUtil {
 		}
 		return escaped;
 	}
+	/**
+	 * 根据日期查找在逃人员
+	 * @param personId
+	 * @return
+	 * @throws ParseException 
+	 */
+	public ArrayList<Escaped> queryEscapedByNrbjzdryksj(Date nrbjzdryksj) throws ParseException{
+		SQLiteDatabase db = helper.getReadableDatabase();
+		Escaped escaped = null;
+		ArrayList<Escaped> escapedList = null;
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String sql = "select * from "+MyHelper.TABLE_NAME_Escaped+ " where nrbjzdryksj = '"+nrbjzdryksj+"'";
+		Cursor cursor = db.rawQuery(sql, null);
+		while(cursor.moveToNext()){
+			escaped = new Escaped();
+			escaped.setXm(cursor.getString(cursor.getColumnIndex("XM")));
+			escaped.setXb(cursor.getString(cursor.getColumnIndex("XB")));
+			escaped.setSfzh(cursor.getString(cursor.getColumnIndex("SFZH")));
+			escaped.setZdrylbbj(cursor.getString(cursor.getColumnIndex("ZDRYLBBJ")));
+			escaped.setZdryxl(cursor.getString(cursor.getColumnIndex("ZDRYXL")));
+			escaped.setLadw(cursor.getString(cursor.getColumnIndex("LADW")));
+			escaped.setNrbjzdryksj(formatter.parse(cursor.getString(cursor.getColumnIndex("NRBJZDRYKSJ"))));
+			escaped.setHjdqh(cursor.getString(cursor.getColumnIndex("HJDQH")));
+			escaped.setHjdxz(cursor.getString(cursor.getColumnIndex("HJDXZ")));
+			escaped.setXzdqh(cursor.getString(cursor.getColumnIndex("XZDQH")));
+			escaped.setXzdxz(cursor.getString(cursor.getColumnIndex("XZDXZ")));
+			escaped.setZjlasj(formatter.parse(cursor.getString(cursor.getColumnIndex("ZJLASJ"))));
+			escapedList.add(escaped);
+		}
+		return escapedList;
+	}
+	public Escaped queryLocalLatestEscaped() throws ParseException{
+		SQLiteDatabase db = helper.getReadableDatabase();
+		Escaped escaped = null;
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String sql = "select * from "+MyHelper.TABLE_NAME_Escaped+ " order by nrbjzdryksj desc limit 1";
+		Cursor cursor = db.rawQuery(sql, null);
+		while(cursor.moveToNext()){
+			escaped = new Escaped();
+			escaped.setXm(cursor.getString(cursor.getColumnIndex("XM")));
+			escaped.setXb(cursor.getString(cursor.getColumnIndex("XB")));
+			escaped.setSfzh(cursor.getString(cursor.getColumnIndex("SFZH")));
+			escaped.setZdrylbbj(cursor.getString(cursor.getColumnIndex("ZDRYLBBJ")));
+			escaped.setZdryxl(cursor.getString(cursor.getColumnIndex("ZDRYXL")));
+			escaped.setLadw(cursor.getString(cursor.getColumnIndex("LADW")));
+			escaped.setNrbjzdryksj(formatter.parse(cursor.getString(cursor.getColumnIndex("NRBJZDRYKSJ"))));
+			escaped.setHjdqh(cursor.getString(cursor.getColumnIndex("HJDQH")));
+			escaped.setHjdxz(cursor.getString(cursor.getColumnIndex("HJDXZ")));
+			escaped.setXzdqh(cursor.getString(cursor.getColumnIndex("XZDQH")));
+			escaped.setXzdxz(cursor.getString(cursor.getColumnIndex("XZDXZ")));
+			escaped.setZjlasj(formatter.parse(cursor.getString(cursor.getColumnIndex("ZJLASJ"))));
+		}
+		return escaped;
+	}
 
 	/**
 	 * 查询身份证核查记录

@@ -142,7 +142,7 @@ public class InformationRecordActivity extends BaseActivity implements
 				break;
 			case LOAD_DATA_FINISH:/* 加载更多 */
 				if (mAdapter != null) {
-					mAdapter.mList = (ArrayList<ItemForNormalView>) msg.obj;
+					mAdapter.mList.addAll((ArrayList<ItemForNormalView>) msg.obj);
 					mAdapter.notifyDataSetChanged();
 				}
 				mListView.onLoadMoreComplete();/* 加载更多完成 */
@@ -251,7 +251,25 @@ public class InformationRecordActivity extends BaseActivity implements
 				}
 			}
 			break;
-
+		case LOAD_DATA_FINISH:
+			ifnvList = new ArrayList<ItemForNormalView>();
+			int _Index = mCount + 10;
+			if(mCount<NormalListCount){
+				for (int i = mCount; i < _Index; i++) {
+					normal = norLists.get(i);
+					ifnv = setItemForNormalView(normal);
+					ifnvList.add(ifnv);
+				}
+			}else{
+				for (int i = mCount; i < NormalListCount; i++) {
+					normal = norLists.get(i);
+					ifnv = setItemForNormalView(normal);
+					ifnvList.add(ifnv);
+				}
+			}
+			// 每次读取10个数据，将读取位置作为下一次读取的起始位置
+			mCount = _Index;
+			break;
 		default:
 			break;
 		}

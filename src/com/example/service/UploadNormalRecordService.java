@@ -56,7 +56,7 @@ public class UploadNormalRecordService extends Service {
 			}
 		}).start();
 		AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-		int anHour = 1 * 10 * 1000; // 这是一小时的毫秒数
+		int anHour = 1 * 10 * 1000; // 这是10秒的毫秒数
 		long triggerAtTime = SystemClock.elapsedRealtime() + anHour;
 		Intent i = new Intent(this, AlarmReceiver.class);
 		PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);

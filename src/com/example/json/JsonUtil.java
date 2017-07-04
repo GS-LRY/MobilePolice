@@ -2,6 +2,7 @@ package com.example.json;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.example.model.Escaped;
@@ -21,6 +22,11 @@ public class JsonUtil {
 		String jsonArray = gson.toJson(list);
 		return jsonArray;
 	}
+	
+	// 在逃人员转化为JSON
+	public String EscapedListToJSON(ArrayList<Escaped> list){
+		return gson.toJson(list);
+	}
 
 	/* JSON数据转换为在逃人员列表 */
 	public ArrayList<Escaped> toEscapedList(String jsondata) {
@@ -34,5 +40,10 @@ public class JsonUtil {
 	/* JSON数据转换为在逃人员对象 */
 	public Escaped JSONtoEscaped(String jsondata){
 		return gson.fromJson(jsondata, Escaped.class);
+	}
+	
+    // Map转JSON
+	public String MaptoJSON(Map<String,String> map){
+		return gson.toJson(map);
 	}
 }

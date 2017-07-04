@@ -14,6 +14,8 @@ import com.example.db.MyHelper;
 import com.example.http.HttpOperation;
 import com.example.json.JsonUtil;
 import com.example.model.Escaped;
+import com.example.service.GetLatestEscapedDataService;
+import com.example.service.UploadNormalRecordService;
 import com.example.service.impl.OneMoreFunctionImpl;
 
 import android.app.Activity;
@@ -43,14 +45,27 @@ public class MainActivity extends BaseActivity implements OnBottomDragListener{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_ui,this);
+		Intent startIntent = new Intent(this,UploadNormalRecordService.class);
+		startService(startIntent);
 		
-		if (!oneMoreFunctionImpl.NetWorkStatus(getApplicationContext())) {
-			Toast.makeText(getApplicationContext(), "网络未连接",
-					Toast.LENGTH_SHORT).show();
-			return;
+//		if (!oneMoreFunctionImpl.NetWorkStatus(getApplicationContext())) {
+//			Toast.makeText(getApplicationContext(), "网络未连接",
+//					Toast.LENGTH_SHORT).show();
+//			return;
+//		}
+		// 当本地没有在逃人员数据时，拉下来最新加入的100条数据
+		if (oneMoreFunctionImpl.NetWorkStatus(getApplicationContext())) {
+			String sql = "select * from "+MyHelper.TABLE_NAME_Escaped;
+			int num = mDButil.queryNumBySQL(sql);
+//			Toast.makeText(getApplicationContext(), "在逃人员数"+num, Toast.LENGTH_SHORT);
+			if(num==0){
+				new Thread(netWorkTask).start();
+			}else{
+				Intent getLatestEscapedIntent = new Intent(this,GetLatestEscapedDataService.class);
+				startService(getLatestEscapedIntent);
+			}
 		}
-		
-		// 从服务器拉取数据
+//		// 从服务器拉取数据
 //		String sql = "select * from "+MyHelper.TABLE_NAME_Escaped;
 //		int num = mDButil.queryNumBySQL(sql);
 //		if(num==0){
@@ -148,7 +163,7 @@ public class MainActivity extends BaseActivity implements OnBottomDragListener{
 					String sql = "select * from "+MyHelper.TABLE_NAME_Escaped;
 					int num = mDButil.queryNumBySQL(sql);
 					
-					if(num==100){
+					if(num>=100){
 						Toast.makeText(getApplicationContext(), "获取在逃人员信息成功",
 								Toast.LENGTH_SHORT).show();
 					}else{

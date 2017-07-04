@@ -55,7 +55,7 @@
                 android:id="@+id/ImgBtn_Thumb_Right"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/thumb" />
 
@@ -63,7 +63,7 @@
                 android:id="@+id/ImgBtn_ForeFinger_Right"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/forefinger" />
 
@@ -71,7 +71,7 @@
                 android:id="@+id/ImgBtn_MiddleFinger_Right"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/middlefinger" />
 
@@ -79,7 +79,7 @@
                 android:id="@+id/ImgBtn_RingFinger_Right"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/ringfinger" />
 
@@ -87,7 +87,7 @@
                 android:id="@+id/ImgBtn_LittleFinger_Right"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/littlefinger" />
 
@@ -133,7 +133,7 @@
                 android:id="@+id/ImgBtn_MiddleFinger_Left"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/middlefinger" />
 
@@ -141,7 +141,7 @@
                 android:id="@+id/ImgBtn__ForeFinger_Left"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/forefinger" />
 
@@ -149,7 +149,7 @@
                 android:id="@+id/ImgBtn_Thumb_Left"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/thumb" />
         </LinearLayout>
