@@ -365,7 +365,12 @@ public class PersonInfoActivity extends BaseActivity implements
 			String result = httpOperation.getStringFromServer(
 					"compareEscapedByPersonId.do", editId.getText().toString());
 			Message msg = new Message();
-			msg.what = 1;
+			// 连接超时，放弃访问服务器，转向访问本地在逃人员数据库
+			if(result.equals("timeout") || result == "timeout"){
+				msg.what = 3;
+			}else{
+				msg.what = 1;
+			}
 			msg.obj = result;
 			mHandler.sendMessage(msg);
 		}
@@ -482,8 +487,8 @@ public class PersonInfoActivity extends BaseActivity implements
 				String result = msg.obj.toString();
 				Escaped escaped = null;
 				if (result.equals("timeout") || result == "timeout") {
-					Toast.makeText(getApplicationContext(),
-							"连接超时，请检查服务器是否正常运行", Toast.LENGTH_LONG).show();
+//					Toast.makeText(getApplicationContext(),
+//							"连接超时，请检查服务器是否正常运行", Toast.LENGTH_LONG).show();
 				} else {
 					if (result.equals("false") || result == "false") {
 						editName.setText("");

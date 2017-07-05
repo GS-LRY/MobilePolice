@@ -118,7 +118,8 @@ public class GetLatestEscapedDataService extends Service{
 			result = httpOperation.getStringFromServer("getServerUpdateEscaped.do",jsondata);
 			
 			if(result!=null){
-				if(result=="false"||result.equals("fasle")||result=="none"||result.equals("none")){
+				// 连接超时，读取错误，没有需要更新的在逃人员信息
+				if(result.equals("timeout") || result == "timeout"||result=="false"||result.equals("fasle")||result=="none"||result.equals("none")){
 					return;
 				}
 				Message msg = new Message();
