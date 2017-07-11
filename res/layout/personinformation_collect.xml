@@ -233,7 +233,8 @@
                             android:digits="0123456789xyzXYZ"
                             android:ems="10"
                             android:inputType="number"
-                            android:textSize="12.0sp" />
+                            android:textSize="12.0sp" 
+                            android:maxLength="18"/>
 
                         <Button
                             android:id="@id/btn_handSearch"

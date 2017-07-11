@@ -457,7 +457,7 @@ public class PersonInfoActivity extends BaseActivity implements
 					}
 					// 将核录信息记录存入本地数据库
 					// 相隔超过5分钟允许插入同一个人的信息
-					if (differsMinutes > 1) {
+					if (differsMinutes > 5) {
 						mDBUtil.Insert_Normal(normal);
 					}
 				} else {

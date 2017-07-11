@@ -40,9 +40,9 @@ public class HttpOperation {
 			httpPost.setEntity(entity);
 			HttpClient client = new DefaultHttpClient();
 			client.getParams().setParameter(
-					CoreConnectionPNames.CONNECTION_TIMEOUT, 5000);// 连接超时，5秒
+					CoreConnectionPNames.CONNECTION_TIMEOUT, 1000);// 连接超时，5秒
 			client.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT,
-					10000);// 读取超时，10秒
+					1000);// 读取超时，10秒
 			HttpResponse httpResponse = client.execute(httpPost);
 			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				result = EntityUtils
