@@ -1,5 +1,9 @@
 package com.example.db;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,6 +15,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.bean.FingerPrintTemplate;
@@ -29,6 +34,51 @@ public class DatabaseUtil {
 	public void dropTable(String tableName) {
 		helper.getWritableDatabase().execSQL(
 				"DROP TABLE IF EXISTS " + tableName);
+	}
+
+	public void InitEscapedData(InputStream in) {
+		SQLiteDatabase db = helper.getWritableDatabase();
+		db.beginTransaction();
+		String sqlUpdate = null;
+		try {
+			
+			sqlUpdate = readTextFromSDcard(in);
+			String[] s = sqlUpdate.split(";");
+			//int num = s.length;
+			for (int i = 0; i < 10031; i++) {
+				if (!TextUtils.isEmpty(s[i])) {
+					db.execSQL(s[i]);
+				}
+			}
+			db.setTransactionSuccessful();
+
+			in.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			db.endTransaction();
+			db.close();
+		}
+	}
+
+	/**
+	 * 按行读取txt
+	 * 
+	 * @param is
+	 * @return
+	 * @throws Exception
+	 */
+	private String readTextFromSDcard(InputStream is) throws Exception {
+		InputStreamReader reader = new InputStreamReader(is);
+		BufferedReader bufferedReader = new BufferedReader(reader);
+		StringBuffer buffer = new StringBuffer("");
+		String str;
+		while ((str = bufferedReader.readLine()) != null) {
+			buffer.append(str);
+			buffer.append("\n");
+		}
+		return buffer.toString();
 	}
 
 	/**
@@ -54,12 +104,13 @@ public class DatabaseUtil {
 		SQLiteDatabase db = helper.getWritableDatabase();
 		String sql = "insert into "
 				+ MyHelper.TABLE_NAME_Normal
-				+ "(persionId,personName,addressCode,addressName,addressGPS,commitTime,userId,infoSubmit,personFp,comparFp) values ("
+				+ "(persionId,personName,addressCode,addressName,addressGPS,commitTime,userId,infoSubmit,personFp,comparFp,isEscaped) values ("
 				+ "'" + normal.getPersonid() + "','" + normal.getPersonname()
 				+ "' , '" + normal.getAddresscode() + "','"
 				+ normal.getAddressname() + "','" + normal.getAddressgps()
 				+ "','" + normal.getCommittime() + "'," + normal.getUserid()
-				+ ", " + normal.getInfosubmit() + ", " + normal.getPersonfp()+", "+normal.getComparfp()
+				+ ", " + normal.getInfosubmit() + ", " + normal.getPersonfp()
+				+ ", " + normal.getComparfp() + ", " + normal.getIsescaped()
 				+ ")";
 		try {
 			db.execSQL(sql);
@@ -82,12 +133,12 @@ public class DatabaseUtil {
 		String sql = "insert into "
 				+ MyHelper.TABLE_NAME_Escaped
 				+ "(XM,XB,SFZH,ZDRYLBBJ,ZDRYXL,LADW,NRBJZDRYKSJ,HJDQH,HJDXZ,XZDQH,XZDXZ,ZJLASJ) values ("
-				+ "'" + escaped.getXm() + "','" + escaped.getXb() + "' , '"+escaped.getSfzh()+"','"
-				+ escaped.getZdrylbbj() + "','" + escaped.getZdryxl() + "', '"
-				+ escaped.getLadw() + "','" + nrbjzdryksj + "', '"
-				+ escaped.getHjdqh() + "', '" + escaped.getHjdxz() + "', '"
-				+ escaped.getXzdqh() + "', '" + escaped.getXzdxz() + "', '"
-				+ zjlasj + "')";
+				+ "'" + escaped.getXm() + "','" + escaped.getXb() + "' , '"
+				+ escaped.getSfzh() + "','" + escaped.getZdrylbbj() + "','"
+				+ escaped.getZdryxl() + "', '" + escaped.getLadw() + "','"
+				+ nrbjzdryksj + "', '" + escaped.getHjdqh() + "', '"
+				+ escaped.getHjdxz() + "', '" + escaped.getXzdqh() + "', '"
+				+ escaped.getXzdxz() + "', '" + zjlasj + "')";
 		try {
 			db.execSQL(sql);
 			return true;
@@ -203,87 +254,105 @@ public class DatabaseUtil {
 		db.close();
 		return list;
 	}
-	
+
 	/**
 	 * 根据身份证号比对在逃人员
+	 * 
 	 * @param personId
 	 * @return
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
-	public Escaped queryEscapedByPersonId(String personId) throws ParseException{
+	public Escaped queryEscapedByPersonId(String personId)
+			throws ParseException {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		Escaped escaped = null;
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String sql = "select * from "+MyHelper.TABLE_NAME_Escaped+ " where SFZH = '"+personId+"'";
+		String sql = "select * from " + MyHelper.TABLE_NAME_Escaped
+				+ " where SFZH = '" + personId + "'";
 		Cursor cursor = db.rawQuery(sql, null);
-		while(cursor.moveToNext()){
+		while (cursor.moveToNext()) {
 			escaped = new Escaped();
 			escaped.setXm(cursor.getString(cursor.getColumnIndex("XM")));
 			escaped.setXb(cursor.getString(cursor.getColumnIndex("XB")));
 			escaped.setSfzh(cursor.getString(cursor.getColumnIndex("SFZH")));
-			escaped.setZdrylbbj(cursor.getString(cursor.getColumnIndex("ZDRYLBBJ")));
+			escaped.setZdrylbbj(cursor.getString(cursor
+					.getColumnIndex("ZDRYLBBJ")));
 			escaped.setZdryxl(cursor.getString(cursor.getColumnIndex("ZDRYXL")));
 			escaped.setLadw(cursor.getString(cursor.getColumnIndex("LADW")));
-			escaped.setNrbjzdryksj(formatter.parse(cursor.getString(cursor.getColumnIndex("NRBJZDRYKSJ"))));
+			escaped.setNrbjzdryksj(formatter.parse(cursor.getString(cursor
+					.getColumnIndex("NRBJZDRYKSJ"))));
 			escaped.setHjdqh(cursor.getString(cursor.getColumnIndex("HJDQH")));
 			escaped.setHjdxz(cursor.getString(cursor.getColumnIndex("HJDXZ")));
 			escaped.setXzdqh(cursor.getString(cursor.getColumnIndex("XZDQH")));
 			escaped.setXzdxz(cursor.getString(cursor.getColumnIndex("XZDXZ")));
-			escaped.setZjlasj(formatter.parse(cursor.getString(cursor.getColumnIndex("ZJLASJ"))));
+			escaped.setZjlasj(formatter.parse(cursor.getString(cursor
+					.getColumnIndex("ZJLASJ"))));
 		}
 		return escaped;
 	}
+
 	/**
 	 * 根据日期查找在逃人员
+	 * 
 	 * @param personId
 	 * @return
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
-	public ArrayList<Escaped> queryEscapedByNrbjzdryksj(Date nrbjzdryksj) throws ParseException{
+	public ArrayList<Escaped> queryEscapedByNrbjzdryksj(Date nrbjzdryksj)
+			throws ParseException {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		Escaped escaped = null;
 		ArrayList<Escaped> escapedList = null;
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String sql = "select * from "+MyHelper.TABLE_NAME_Escaped+ " where nrbjzdryksj = '"+nrbjzdryksj+"'";
+		String sql = "select * from " + MyHelper.TABLE_NAME_Escaped
+				+ " where nrbjzdryksj = '" + nrbjzdryksj + "'";
 		Cursor cursor = db.rawQuery(sql, null);
-		while(cursor.moveToNext()){
+		while (cursor.moveToNext()) {
 			escaped = new Escaped();
 			escaped.setXm(cursor.getString(cursor.getColumnIndex("XM")));
 			escaped.setXb(cursor.getString(cursor.getColumnIndex("XB")));
 			escaped.setSfzh(cursor.getString(cursor.getColumnIndex("SFZH")));
-			escaped.setZdrylbbj(cursor.getString(cursor.getColumnIndex("ZDRYLBBJ")));
+			escaped.setZdrylbbj(cursor.getString(cursor
+					.getColumnIndex("ZDRYLBBJ")));
 			escaped.setZdryxl(cursor.getString(cursor.getColumnIndex("ZDRYXL")));
 			escaped.setLadw(cursor.getString(cursor.getColumnIndex("LADW")));
-			escaped.setNrbjzdryksj(formatter.parse(cursor.getString(cursor.getColumnIndex("NRBJZDRYKSJ"))));
+			escaped.setNrbjzdryksj(formatter.parse(cursor.getString(cursor
+					.getColumnIndex("NRBJZDRYKSJ"))));
 			escaped.setHjdqh(cursor.getString(cursor.getColumnIndex("HJDQH")));
 			escaped.setHjdxz(cursor.getString(cursor.getColumnIndex("HJDXZ")));
 			escaped.setXzdqh(cursor.getString(cursor.getColumnIndex("XZDQH")));
 			escaped.setXzdxz(cursor.getString(cursor.getColumnIndex("XZDXZ")));
-			escaped.setZjlasj(formatter.parse(cursor.getString(cursor.getColumnIndex("ZJLASJ"))));
+			escaped.setZjlasj(formatter.parse(cursor.getString(cursor
+					.getColumnIndex("ZJLASJ"))));
 			escapedList.add(escaped);
 		}
 		return escapedList;
 	}
-	public Escaped queryLocalLatestEscaped() throws ParseException{
+
+	public Escaped queryLocalLatestEscaped() throws ParseException {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		Escaped escaped = null;
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String sql = "select * from "+MyHelper.TABLE_NAME_Escaped+ " order by nrbjzdryksj desc limit 1";
+		String sql = "select * from " + MyHelper.TABLE_NAME_Escaped
+				+ " order by nrbjzdryksj desc limit 1";
 		Cursor cursor = db.rawQuery(sql, null);
-		while(cursor.moveToNext()){
+		while (cursor.moveToNext()) {
 			escaped = new Escaped();
 			escaped.setXm(cursor.getString(cursor.getColumnIndex("XM")));
 			escaped.setXb(cursor.getString(cursor.getColumnIndex("XB")));
 			escaped.setSfzh(cursor.getString(cursor.getColumnIndex("SFZH")));
-			escaped.setZdrylbbj(cursor.getString(cursor.getColumnIndex("ZDRYLBBJ")));
+			escaped.setZdrylbbj(cursor.getString(cursor
+					.getColumnIndex("ZDRYLBBJ")));
 			escaped.setZdryxl(cursor.getString(cursor.getColumnIndex("ZDRYXL")));
 			escaped.setLadw(cursor.getString(cursor.getColumnIndex("LADW")));
-			escaped.setNrbjzdryksj(formatter.parse(cursor.getString(cursor.getColumnIndex("NRBJZDRYKSJ"))));
+			escaped.setNrbjzdryksj(formatter.parse(cursor.getString(cursor
+					.getColumnIndex("NRBJZDRYKSJ"))));
 			escaped.setHjdqh(cursor.getString(cursor.getColumnIndex("HJDQH")));
 			escaped.setHjdxz(cursor.getString(cursor.getColumnIndex("HJDXZ")));
 			escaped.setXzdqh(cursor.getString(cursor.getColumnIndex("XZDQH")));
 			escaped.setXzdxz(cursor.getString(cursor.getColumnIndex("XZDXZ")));
-			escaped.setZjlasj(formatter.parse(cursor.getString(cursor.getColumnIndex("ZJLASJ"))));
+			escaped.setZjlasj(formatter.parse(cursor.getString(cursor
+					.getColumnIndex("ZJLASJ"))));
 		}
 		return escaped;
 	}
@@ -319,6 +388,8 @@ public class DatabaseUtil {
 					.getColumnIndex("infoSubmit")));
 			normal.setPersonfp(cursor.getInt(cursor.getColumnIndex("personFp")));
 			normal.setComparfp(cursor.getInt(cursor.getColumnIndex("comparFp")));
+			normal.setIsescaped(cursor.getInt(cursor
+					.getColumnIndex("isEscaped")));
 			list.add(normal);
 		}
 		return list;
@@ -356,6 +427,8 @@ public class DatabaseUtil {
 					.getColumnIndex("infoSubmit")));
 			normal.setPersonfp(cursor.getInt(cursor.getColumnIndex("personFp")));
 			normal.setComparfp(cursor.getInt(cursor.getColumnIndex("comparFp")));
+			normal.setIsescaped(cursor.getInt(cursor
+					.getColumnIndex("isEscaped")));
 			list.add(normal);
 		}
 		return list;
@@ -393,6 +466,8 @@ public class DatabaseUtil {
 					.getColumnIndex("infoSubmit")));
 			normal.setPersonfp(cursor.getInt(cursor.getColumnIndex("personFp")));
 			normal.setComparfp(cursor.getInt(cursor.getColumnIndex("comparFp")));
+			normal.setIsescaped(cursor.getInt(cursor
+					.getColumnIndex("isEscaped")));
 			list.add(normal);
 		}
 		return list;
@@ -517,8 +592,8 @@ public class DatabaseUtil {
 		db.close();
 		return num;
 	}
-	
-	/*查询记录数*/
+
+	/* 查询记录数 */
 	public int queryNumBySQL(String sql) {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		Cursor cursor = db.rawQuery(sql, null);

@@ -30,6 +30,16 @@ public class Normal {
 	private Integer personfp;
 	
 	private Integer comparfp;
+	
+	private Integer isescaped;
+
+	public Integer getIsescaped() {
+		return isescaped;
+	}
+
+	public void setIsescaped(Integer isescaped) {
+		this.isescaped = isescaped;
+	}
 
 	public Integer getComparfp() {
 		return comparfp;

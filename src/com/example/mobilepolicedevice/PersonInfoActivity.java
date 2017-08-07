@@ -1,5 +1,8 @@
 package com.example.mobilepolicedevice;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,12 +20,15 @@ import com.example.http.HttpOperation;
 import com.example.json.JsonUtil;
 import com.example.model.Escaped;
 import com.example.model.Normal;
+import com.example.service.GetLatestEscapedDataService;
+import com.example.service.UploadNormalRecordService;
 import com.example.service.impl.OneMoreFunctionImpl;
 import com.hdos.usbdevice.publicSecurityIDCardLib;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Matrix;
@@ -81,9 +87,13 @@ public class PersonInfoActivity extends BaseActivity implements
 	private EditText editXZDXZShow;// 现居住地址
 	private EditText editZJLASJShow;// 最近立案时间
 
+	private int isEscaped = 0;// 是否是在逃或重点人员，默认是非在逃或重点人员
+
+	private boolean isChecked = false;// 是否已经核查
+
 	private publicSecurityIDCardLib iDCardDevice;
 	private Context context;
-
+	private DatabaseUtil mDButil = new DatabaseUtil(PersonInfoActivity.this);
 	private OneMoreFunctionImpl oneMoreFunctionImpl = new OneMoreFunctionImpl();
 	private HttpOperation httpOperation = new HttpOperation();
 	private JsonUtil jsonUtil = new JsonUtil();
@@ -126,6 +136,34 @@ public class PersonInfoActivity extends BaseActivity implements
 
 		setContentView(R.layout.personinformation_collect, this);
 
+		/********************************** 畅享7体检版 **********************************/
+		// Intent startIntent = new
+		// Intent(this,UploadNormalRecordService.class);
+		// startService(startIntent);
+		// // 当本地没有在逃人员数据时，拉下来最新加入的100条数据
+		// if (oneMoreFunctionImpl.NetWorkStatus(getApplicationContext())) {
+		// String sql = "select * from "+MyHelper.TABLE_NAME_Escaped;
+		// int num = mDButil.queryNumBySQL(sql);
+		// // Toast.makeText(getApplicationContext(), "在逃人员数"+num,
+		// Toast.LENGTH_SHORT);
+		// if(num==0){
+		// new Thread(netWorkTask).start();
+		// }else{
+		// Intent getLatestEscapedIntent = new
+		// Intent(this,GetLatestEscapedDataService.class);
+		// startService(getLatestEscapedIntent);
+		// }
+		// }
+		String sql = "select * from " + MyHelper.TABLE_NAME_Escaped;
+		int num = mDButil.queryNumBySQL(sql);
+		Toast.makeText(getApplicationContext(), "在逃人员数" + num,
+				Toast.LENGTH_SHORT);
+		if (num == 0) {
+			Message msg = new Message();
+			msg.what = 4;
+			mHandler.sendMessage(msg);
+		}
+		/********************************** 畅享7体检版 **********************************/
 		mact = this;
 		pkName = this.getPackageName();
 		context = this;
@@ -310,31 +348,9 @@ public class PersonInfoActivity extends BaseActivity implements
 					return;
 				}
 				if (!oneMoreFunctionImpl.NetWorkStatus(getApplicationContext())) {
-					// Toast.makeText(getApplicationContext(), "网络未连接",
-					// Toast.LENGTH_SHORT).show();
-					// return;
-					// String sql =
-					// "select * from "+MyHelper.TABLE_NAME_Escaped;
-					// int num = mDBUtil.queryNumBySQL(sql);
-					// Toast.makeText(getApplicationContext(),
-					// "nihao",Toast.LENGTH_SHORT).show();
-					// return;
-					// Escaped escaped = null;
-					// String result = "false";
-					// try {
-					// escaped =
-					// mDBUtil.queryEscapedByPersonId(editId.getText().toString());
-					// } catch (ParseException e) {
-					// // TODO Auto-generated catch block
-					// e.printStackTrace();
-					// }
-					// if(escaped!=null){
-					// result = "true";
 					Message msg = new Message();
 					msg.what = 3;
-					// msg.obj = result;
 					mHandler.sendMessage(msg);
-					// }
 				} else {
 					// 点击查询身份证号时，把不必要的信息清空
 					editNation.setText("");
@@ -366,9 +382,9 @@ public class PersonInfoActivity extends BaseActivity implements
 					"compareEscapedByPersonId.do", editId.getText().toString());
 			Message msg = new Message();
 			// 连接超时，放弃访问服务器，转向访问本地在逃人员数据库
-			if(result.equals("timeout") || result == "timeout"){
+			if (result.equals("timeout") || result == "timeout") {
 				msg.what = 3;
-			}else{
+			} else {
 				msg.what = 1;
 			}
 			msg.obj = result;
@@ -433,43 +449,6 @@ public class PersonInfoActivity extends BaseActivity implements
 				Date nowTime = new Date();
 				normal.setCommittime(formatter.format(nowTime));
 
-				// 在插入数据之前进行信息比对，看是否在一定时间范围内已经存入本地数据库
-				if (norList.size() > 0) {
-					norList = mDBUtil.queryNormalByPersonid(normal
-							.getPersonid());
-					int differsMinutes = 0;// 相差分钟数
-					for (int i = 0; i < norList.size(); i++) {
-						Normal n = norList.get(i);
-						try {
-							Date oldCommittime = formatter.parse(n
-									.getCommittime());
-							long milliseconds = nowTime.getTime()
-									- oldCommittime.getTime();
-							differsMinutes = (int) (milliseconds / (60 * 1000));
-							// 同一个人的信息在五分钟内被重复核查，信息不存入数据库
-							if (differsMinutes <= 5) {
-								break;
-							}
-						} catch (ParseException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					// 将核录信息记录存入本地数据库
-					// 相隔超过5分钟允许插入同一个人的信息
-					if (differsMinutes > 5) {
-						mDBUtil.Insert_Normal(normal);
-					}
-				} else {
-					mDBUtil.Insert_Normal(normal);
-				}
-
-				// 插入数据之后查询记录条数
-				norList = mDBUtil.queryAll_Normal();
-				nornum = norList.size();
-				// Toast.makeText(getApplicationContext(),
-				// "核查之后有" + nornum + "条数据", Toast.LENGTH_SHORT).show();
-
 				// 联网状态下，自动去服务器比对在逃人员数据库
 				if (oneMoreFunctionImpl.NetWorkStatus(getApplicationContext())) {
 					new Thread(new Runnable() {
@@ -482,15 +461,67 @@ public class PersonInfoActivity extends BaseActivity implements
 					// 离线状态下，虚拟点击比对身份证按钮，比对离线数据库
 					btnHandSearch.performClick();
 				}
+
+				// Toast.makeText(getApplicationContext(),
+				// isEscaped+"21", Toast.LENGTH_SHORT).show();
+				// 已经核查过了
+				if (isChecked) {
+					normal.setIsescaped(isEscaped);// 设置是否是在逃或重点人员
+
+					// 在插入数据之前进行信息比对，看是否在一定时间范围内已经存入本地数据库
+					if (norList.size() > 0) {
+						norList = mDBUtil.queryNormalByPersonid(normal
+								.getPersonid());
+						int differsMinutes = 0;// 相差分钟数
+						for (int i = 0; i < norList.size(); i++) {
+							Normal n = norList.get(i);
+							try {
+								Date oldCommittime = formatter.parse(n
+										.getCommittime());
+								long milliseconds = nowTime.getTime()
+										- oldCommittime.getTime();
+								differsMinutes = (int) (milliseconds / (60 * 1000));
+								// 同一个人的信息在五分钟内被重复核查，信息不存入数据库
+								if (differsMinutes <= 5) {
+									break;
+								}
+							} catch (ParseException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						// 将核录信息记录存入本地数据库
+						// 相隔超过5分钟允许插入同一个人的信息
+						if (differsMinutes > 5) {
+
+							mDBUtil.Insert_Normal(normal);
+						}
+					} else {
+						// Toast.makeText(getApplicationContext(),
+						// "应该插入数据", Toast.LENGTH_SHORT).show();
+
+						mDBUtil.Insert_Normal(normal);
+					}
+
+					// 插入数据之后查询记录条数
+					// norList = mDBUtil.queryAll_Normal();
+					// nornum = norList.size();
+					isChecked = false;// 插入数据后，将核查状态置为初始状态
+				}
+
+				// Toast.makeText(getApplicationContext(),
+				// "核查之后有" + nornum + "条数据", Toast.LENGTH_SHORT).show();
 				break;
 			case 1:
 				String result = msg.obj.toString();
 				Escaped escaped = null;
 				if (result.equals("timeout") || result == "timeout") {
-//					Toast.makeText(getApplicationContext(),
-//							"连接超时，请检查服务器是否正常运行", Toast.LENGTH_LONG).show();
+					// Toast.makeText(getApplicationContext(),
+					// "连接超时，请检查服务器是否正常运行", Toast.LENGTH_LONG).show();
 				} else {
 					if (result.equals("false") || result == "false") {
+
+						isEscaped = 0;// 不是在逃或重点人员
 						editName.setText("");
 						editSex.setText("");
 
@@ -502,6 +533,7 @@ public class PersonInfoActivity extends BaseActivity implements
 						// Toast.LENGTH_LONG).show();
 					} else {
 						// 如果所查身份为在逃人员，将信息存入本地数据库
+						isEscaped = 1;// 是在逃或重点人员
 						ArrayList<Escaped> escapedList = jsonUtil
 								.toEscapedList(result);
 						// Toast.makeText(getApplicationContext(),
@@ -529,6 +561,7 @@ public class PersonInfoActivity extends BaseActivity implements
 								.getZjlasj()));
 					}
 				}
+				isChecked = true;// 已经核查
 				break;
 			case 2:
 				String userstatus = msg.obj.toString();
@@ -553,11 +586,13 @@ public class PersonInfoActivity extends BaseActivity implements
 					// editName.setText("");
 					// editSex.setText("");
 					// editBirth.setText("");
+					isEscaped = 0;// 不是在逃或重点人员
 					// 隐藏在逃人员显示界面
 					Llyt_Escaped.setVisibility(View.GONE);
 					// 显示非在逃人员界面
 					Llyt_NoEscaped.setVisibility(View.VISIBLE);
 				} else {
+					isEscaped = 1;// 是在逃或重点人员
 					// 显示在逃人员信息
 					Llyt_Escaped.setVisibility(View.VISIBLE);
 					// 隐藏非在逃人员信息
@@ -574,6 +609,21 @@ public class PersonInfoActivity extends BaseActivity implements
 					editXZDXZShow.setText(newescaped.getXzdxz());
 					editZJLASJShow.setText(formatter.format(newescaped
 							.getZjlasj()));
+				}
+				isChecked = true;// 已经核查
+				break;
+			case 4:
+				try {
+					InputStream in = getAssets().open("t_escaped.sql");
+					mDButil.InitEscapedData(in);
+					String sqls = "select * from "
+							+ MyHelper.TABLE_NAME_Escaped;
+					int nums = mDButil.queryNumBySQL(sqls);
+					Toast.makeText(getApplicationContext(), "在逃人员数" + nums,
+							Toast.LENGTH_SHORT);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				break;
 			default:
@@ -604,16 +654,18 @@ public class PersonInfoActivity extends BaseActivity implements
 		String day = str.substring(i + 6, i + 8);// 日
 		return year + "年" + month + "月" + day + "日";
 	}
+
 	/**
 	 * 从读取身份证号码中提取生日
 	 */
-	private String getBirthDayFromSFZH(String str){
+	private String getBirthDayFromSFZH(String str) {
 		int i = 0;
 		String year = str.substring(i, i + 4);// 年
 		String month = str.substring(i + 4, i + 6);// 月
 		String day = str.substring(i + 6, i + 8);// 日
 		return year + "年" + month + "月" + day + "日";
 	}
+
 	/**
 	 * 根据给定的宽和高进行拉伸
 	 * 
@@ -672,6 +724,70 @@ public class PersonInfoActivity extends BaseActivity implements
 		}
 	};
 
+	/********************************** 畅享7体检版 **********************************/
+	// Runnable netWorkTask = new Runnable() {
+	// public void run() {
+	// String jsondata =
+	// httpOperation.getStringFromServer("getEscapedHundred.do","");
+	// Message msg = new Message();
+	// msg.what = 0;
+	// msg.obj = jsondata;
+	// handlers.sendMessage(msg);
+	// }
+	// };
+	//
+	// Handler handlers = new Handler(){
+	// public void handleMessage(Message msg) {
+	// switch (msg.what) {
+	// case 0:
+	// String jsondata = msg.obj.toString();
+	// if(jsondata.length()>20){
+	// JsonUtil jsonutil = new JsonUtil();
+	// ArrayList<Escaped> escapedList = jsonutil.toEscapedList(jsondata);
+	// // Escaped escaped = escapedList.get(0);
+	// // SimpleDateFormat formatter = new
+	// SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	// // Toast.makeText(getApplicationContext(),
+	// "XM:"+escaped.getXm()+"XB:"+escaped.getXb()+"SFZH:"+escaped.getSfzh()+"ZDRYLBBJ:"+escaped.getZdrylbbj()+""
+	// +
+	// //
+	// "ZDRYXL:"+escaped.getZdryxl()+"LADW:"+escaped.getLadw()+"NRBJZDRYKSJ:"+formatter.format(escaped.getNrbjzdryksj())+"HJDQH:"+escaped.getHjdqh()+"HJDXZ:"+escaped.getHjdxz()+"XZDQH:"+escaped.getXzdqh()+""
+	// +
+	// //
+	// "XZDXZ:"+escaped.getXzdxz()+"ZJLASJ:"+formatter.format(escaped.getZjlasj()),
+	// Toast.LENGTH_LONG).show();
+	// for (int i = 0; i < escapedList.size(); i++) {
+	// Escaped escaped = escapedList.get(i);
+	// mDButil.Insert_Escaped(escaped);
+	// }
+	// String sql = "select * from "+MyHelper.TABLE_NAME_Escaped;
+	// int num = mDButil.queryNumBySQL(sql);
+	//
+	// if(num>=100){
+	// Toast.makeText(getApplicationContext(), "获取在逃人员信息成功",
+	// Toast.LENGTH_SHORT).show();
+	// }else{
+	// Toast.makeText(getApplicationContext(), "插入在逃人员信息失败",
+	// Toast.LENGTH_SHORT).show();
+	// }
+	// }else {
+	// if(jsondata == "timeout" || jsondata.equals("timeout")){
+	// Toast.makeText(getApplicationContext(),
+	// "连接超时，请检查服务器是否正常运行", Toast.LENGTH_SHORT).show();
+	// }else{
+	// Toast.makeText(getApplicationContext(),
+	// "获取在逃人员信息失败", Toast.LENGTH_SHORT).show();
+	// }
+	// }
+	//
+	// break;
+	//
+	// default:
+	// break;
+	// }
+	// };
+	// };
+	/********************************** 畅享7体检版 **********************************/
 	@Override
 	public Activity getActivity() {
 		// TODO Auto-generated method stub

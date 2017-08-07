@@ -48,11 +48,6 @@ public class MainActivity extends BaseActivity implements OnBottomDragListener{
 		Intent startIntent = new Intent(this,UploadNormalRecordService.class);
 		startService(startIntent);
 		
-//		if (!oneMoreFunctionImpl.NetWorkStatus(getApplicationContext())) {
-//			Toast.makeText(getApplicationContext(), "网络未连接",
-//					Toast.LENGTH_SHORT).show();
-//			return;
-//		}
 		// 当本地没有在逃人员数据时，拉下来最新加入的100条数据
 		if (oneMoreFunctionImpl.NetWorkStatus(getApplicationContext())) {
 			String sql = "select * from "+MyHelper.TABLE_NAME_Escaped;
@@ -65,12 +60,7 @@ public class MainActivity extends BaseActivity implements OnBottomDragListener{
 				startService(getLatestEscapedIntent);
 			}
 		}
-//		// 从服务器拉取数据
-//		String sql = "select * from "+MyHelper.TABLE_NAME_Escaped;
-//		int num = mDButil.queryNumBySQL(sql);
-//		if(num==0){
-//			new Thread(netWorkTask).start();
-//		}
+
 		
 		ImgView_IdCardVerification = (ImageView)findViewById(R.id.ImgView_IdCardVerification);
 		ImgView_FingerPrintVerification = (ImageView)findViewById(R.id.ImgView_FingerPrintVerification);
